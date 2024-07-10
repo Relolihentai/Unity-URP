@@ -1,4 +1,4 @@
-Shader "ShaderTemplate/Default"
+Shader "Fake/Fake_Lit"
 {
     Properties
     {
@@ -86,6 +86,18 @@ Shader "ShaderTemplate/Default"
             ENDHLSL
         }
 
-        UsePass "Universal Render Pipeline/Unlit/DEPTHNORMALSONLY"
+        Pass {
+            Name "DepthNormals"
+            Tags {
+                "LightMode" = "DepthNormals"
+            }
+
+            HLSLPROGRAM
+            #pragma vertex DepthNormalsVertex
+            #pragma fragment DepthNormalsFragment
+            
+            #include "Packages/com.unity.render-pipelines.universal/Shaders/LitDepthNormalsPass.hlsl"
+            ENDHLSL
+        }
     }
 }

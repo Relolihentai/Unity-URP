@@ -1,15 +1,14 @@
-Shader "ShaderTemplate/Default"
+Shader "Custom/SSR_Shader"
 {
     Properties
     {
-        _BaseColor ("Base Color", Color) = (1,1,1,1)
         _MainTex ("Main Texture", 2D) = "white" {}
     }
     SubShader
     {
         Tags 
         {
-            "RenderPipeline" = "UniversalPipeline" 
+            "RenderPipeline" = "UniversalPipeline"
             "Queue"="Geometry"
             "RenderType"="Opaque"
         }
@@ -19,7 +18,6 @@ Shader "ShaderTemplate/Default"
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 
         CBUFFER_START(UnityPerMaterial)
-        float4 _BaseColor;
         float4 _MainTex_ST;
         CBUFFER_END
         
@@ -49,7 +47,7 @@ Shader "ShaderTemplate/Default"
             struct v2f
             {
                 float4 position: SV_POSITION;
-                float2 uv: TEXCOORD0;
+                float2 scrUV: TEXCOORD0;
                 float3 worldPos: TEXCOORD1;
                 float3 worldNormal: TEXCOORD2;
                 float3 viewDir: TEXCOORD3;
@@ -59,33 +57,27 @@ Shader "ShaderTemplate/Default"
             {
                 v2f OUT;
                 VertexPositionInputs vertex_position_inputs = GetVertexPositionInputs(IN.vertex.xyz);
-                VertexNormalInputs vertex_normal_inputs = GetVertexNormalInputs(IN.normal.xyz);
+                VertexNormalInputs vertex_normal_inputs = GetVertexNormalInputs(IN.vertex.xyz);
                 OUT.position = vertex_position_inputs.positionCS;
                 OUT.worldPos = vertex_position_inputs.positionWS;
                 OUT.worldNormal = vertex_normal_inputs.normalWS;
                 OUT.viewDir = GetCameraPositionWS() - OUT.worldPos;
-                OUT.uv = TRANSFORM_TEX(IN.uv, _MainTex);
+
+                float4 ndcPosition = OUT.position * 0.5f;
+                float4 ndcTmp;
+                ndcTmp.xy = float2(ndcPosition.x, ndcPosition.y * _ProjectionParams.x) + ndcPosition.w;
+                ndcTmp.zw = OUT.position.zw;
+                OUT.scrUV = ndcTmp.xyz / ndcTmp.w;
                 return OUT;
             }
 
             float4 frag(v2f IN): SV_Target
             {
-                Light light = GetMainLight();
-                float3 lightDir = light.direction;
-                float3 lightColor = light.color;
-                float3 halfDir = normalize(IN.viewDir + lightDir);
-                float nol = dot(IN.worldNormal, lightDir);
-                float noh = dot(IN.worldNormal, halfDir);
-                float nov = dot(IN.worldNormal, IN.viewDir);
-
-                float4 mainColor = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, IN.uv);
-                float4 finalColor = mainColor * _BaseColor * nol;
+                float4 finalColor = float4(1, 1, 1, 1);
                 return finalColor;
             }
             
             ENDHLSL
         }
-
-        UsePass "Universal Render Pipeline/Unlit/DEPTHNORMALSONLY"
     }
 }
