@@ -104,7 +104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f6a00ebfab91d744b50cd394d79a623, type: 3}
   m_Name: SSR
   m_EditorClassIdentifier: 
-  m_Active: 0
+  m_Active: 1
   setting:
     Material: {fileID: 2100000, guid: d78c3208673d1464599311857ef490e9, type: 2}
     RenderPassEvent: 300
