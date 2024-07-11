@@ -48,7 +48,8 @@ MonoBehaviour:
     hdrDebugViewPS: {fileID: 4800000, guid: 573620ae32aec764abd4d728906d2587, type: 3}
   m_RendererFeatures:
   - {fileID: -5764158215052365504}
-  m_RendererFeatureMap: 4071a7aaa49801b0
+  - {fileID: 7547691759057820342}
+  m_RendererFeatureMap: 4071a7aaa49801b0b6dac85caac9be68
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -91,3 +92,19 @@ MonoBehaviour:
   m_CopyDepthMode: 0
   m_AccurateGbufferNormals: 0
   m_IntermediateTextureMode: 1
+--- !u!114 &7547691759057820342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f6a00ebfab91d744b50cd394d79a623, type: 3}
+  m_Name: SSR
+  m_EditorClassIdentifier: 
+  m_Active: 0
+  setting:
+    Material: {fileID: 2100000, guid: d78c3208673d1464599311857ef490e9, type: 2}
+    RenderPassEvent: 300

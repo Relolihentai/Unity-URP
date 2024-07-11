@@ -1,24 +1,20 @@
 Shader "Custom/SSR_Shader"
 {
-    Properties
-    {
-        _MainTex ("Main Texture", 2D) = "white" {}
-    }
     SubShader
     {
         Tags 
         {
-            "RenderPipeline" = "UniversalPipeline"
+            "RenderPipeline" = "UniversalPipeline" 
             "Queue"="Geometry"
             "RenderType"="Opaque"
         }
         HLSLINCLUDE
 
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-        #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+        #include "Packages/com.unity.render-pipelines.core/Runtime/Utilities/Blit.hlsl"
 
         CBUFFER_START(UnityPerMaterial)
-        float4 _MainTex_ST;
+        float4 _CameraViewTopLeftCorner, _CameraViewXExtent, _CameraViewYExtent, _ProjectionParams2;
         CBUFFER_END
         
         ENDHLSL
@@ -34,49 +30,106 @@ Shader "Custom/SSR_Shader"
             #pragma vertex vert
             #pragma fragment frag
 
-            TEXTURE2D(_MainTex);
-            SAMPLER(sampler_MainTex);
+            TEXTURE2D_X_FLOAT(_CameraDepthTexture);
+            SAMPLER(sampler_CameraDepthTexture);
+            TEXTURE2D_X_FLOAT(_CameraNormalsTexture);
+            SAMPLER(sampler_CameraNormalsTexture);
             
             struct a2v
             {
-                float4 vertex: POSITION;
-                float3 normal: NORMAL;
-                float2 uv: TEXCOORD0;
+                #if SHADER_API_GLES
+                        float4 positionOS : POSITION;
+                        float2 uv : TEXCOORD0;
+                #else
+                        uint vertexID : SV_VertexID;
+                #endif
+                        UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct v2f
             {
                 float4 position: SV_POSITION;
-                float2 scrUV: TEXCOORD0;
-                float3 worldPos: TEXCOORD1;
-                float3 worldNormal: TEXCOORD2;
-                float3 viewDir: TEXCOORD3;
+                float2 uv: TEXCOORD0;
             };
 
             v2f vert(a2v IN)
             {
                 v2f OUT;
-                VertexPositionInputs vertex_position_inputs = GetVertexPositionInputs(IN.vertex.xyz);
-                VertexNormalInputs vertex_normal_inputs = GetVertexNormalInputs(IN.vertex.xyz);
-                OUT.position = vertex_position_inputs.positionCS;
-                OUT.worldPos = vertex_position_inputs.positionWS;
-                OUT.worldNormal = vertex_normal_inputs.normalWS;
-                OUT.viewDir = GetCameraPositionWS() - OUT.worldPos;
+                
+                #if SHADER_API_GLES
+                        float4 pos = v.positionOS;
+                        float2 uv  = v.uv;
+                #else
+                        float4 pos = GetFullScreenTriangleVertexPosition(IN.vertexID);
+                        float2 uv = GetFullScreenTriangleTexCoord(IN.vertexID);
+                #endif
 
-                float4 ndcPosition = OUT.position * 0.5f;
-                float4 ndcTmp;
-                ndcTmp.xy = float2(ndcPosition.x, ndcPosition.y * _ProjectionParams.x) + ndcPosition.w;
-                ndcTmp.zw = OUT.position.zw;
-                OUT.scrUV = ndcTmp.xyz / ndcTmp.w;
+                OUT.position = pos;
+                OUT.uv = uv * _BlitScaleBias.xy + _BlitScaleBias.zw;
                 return OUT;
             }
 
-            float4 frag(v2f IN): SV_Target
+            half3 ReconstructViewPos(float2 uv, float linearEyeDepth) {
+                // Screen is y-inverted
+                uv.y = 1.0 - uv.y;
+
+                float zScale = linearEyeDepth * _ProjectionParams2.x; // divide by near plane
+                float3 viewPos = _CameraViewTopLeftCorner.xyz + _CameraViewXExtent.xyz * uv.x + _CameraViewYExtent.xyz * uv.y;
+                viewPos *= zScale;
+
+                return viewPos;
+            }
+            // 从视角空间坐标片元uv和深度  
+            void ReconstructUVAndDepth(float3 wpos, out float2 uv, out float depth)
+            {  
+                float4 cpos = mul(UNITY_MATRIX_VP, wpos);  
+                uv = float2(cpos.x, cpos.y * _ProjectionParams.x) / cpos.w * 0.5 + 0.5;
+                depth = cpos.w;
+            }
+            float4 GetSource(float2 uv)
+            {  
+                return SAMPLE_TEXTURE2D_X_LOD(_BlitTexture, sampler_LinearRepeat, uv, _BlitMipLevel);  
+            }
+            float GetDepth(float2 uv)
             {
-                float4 finalColor = float4(1, 1, 1, 1);
-                return finalColor;
+                return SAMPLE_TEXTURE2D_X(_CameraDepthTexture, sampler_CameraDepthTexture, uv).r;
+            }
+            float3 GetNormal(float2 uv)
+            {
+                return SAMPLE_TEXTURE2D_X(_CameraNormalsTexture, sampler_CameraNormalsTexture, uv);
             }
             
+            #define MAXDISTANCE 15
+            #define STEP_COUNT 100  
+            #define THICKNESS 0.3
+            #define STEP_SIZE 0.1
+
+            float4 frag(v2f IN): SV_Target
+            {
+                float depth = GetDepth(IN.uv);
+                float depthValue = LinearEyeDepth(depth, _ZBufferParams);
+                float3 viewPos = ReconstructViewPos(IN.uv, depthValue);
+                float3 worldPos = _WorldSpaceCameraPos + viewPos;
+                
+                float3 vnormal = GetNormal(IN.uv);
+                //return float4(vnormal, 1);
+                float3 vDir = normalize(viewPos);  
+                float3 rDir = normalize(reflect(vDir, vnormal));  
+
+                UNITY_LOOP
+                for (int i = 0; i < STEP_COUNT; i++) {  
+                float3 vpos2 = viewPos + rDir * STEP_SIZE * i;
+                float2 uv2;
+                float stepDepth;
+                ReconstructUVAndDepth(vpos2, uv2, stepDepth);
+                float stepRawDepth = GetDepth(uv2);
+                float stepSurfaceDepth = LinearEyeDepth(stepRawDepth, _ZBufferParams);
+                //return float4(stepSurfaceDepth, stepSurfaceDepth, stepSurfaceDepth, 1);
+                if (stepSurfaceDepth < stepDepth && stepDepth < stepSurfaceDepth + THICKNESS)
+                        return GetSource(uv2);
+                }    
+                return half4(0.0, 0.0, 0.0, 1.0);
+            }
             ENDHLSL
         }
     }
