@@ -5,8 +5,6 @@ Shader "Custom/SSR_Shader"
         Tags 
         {
             "RenderPipeline" = "UniversalPipeline" 
-            "Queue"="Geometry"
-            "RenderType"="Opaque"
         }
         HLSLINCLUDE
 
@@ -43,7 +41,7 @@ Shader "Custom/SSR_Shader"
                 #else
                         uint vertexID : SV_VertexID;
                 #endif
-                        UNITY_VERTEX_INPUT_INSTANCE_ID
+                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct v2f
@@ -119,11 +117,12 @@ Shader "Custom/SSR_Shader"
                 v1 = tmp;
             } 
             
-            #define MAXDISTANCE 10
-            #define STRIDE 3
+            #define MAXDISTANCE 100
+            #define STRIDE 5
             #define STEP_COUNT 200
+            #define BINARY_COUNT 1
             // 能反射和不可能的反射之间的界限  
-            #define THICKNESS 0.5
+            #define THICKNESS 0.4
 
             float4 frag(v2f IN): SV_Target
             {
@@ -169,26 +168,106 @@ Shader "Custom/SSR_Shader"
 
                 // 缓存当前深度和位置
                 float curFac = 0.0;
+                float lastFac = 0.0;
+                float oriFac = 0.0;
+
+                static float dither[16] =
+                {
+                    0.0, 0.5, 0.125, 0.625,
+                    0.75, 0.25, 0.875, 0.375,
+                    0.187, 0.687, 0.0625, 0.562,
+                    0.937, 0.437, 0.812, 0.312
+                };
 
                 float2 screenSamplePoint = startScrPos;
-                UNITY_LOOP  
-                for (int i = 0; i < STEP_COUNT && distance(screenSamplePoint, startScrPos) <= distance(endScrPos, startScrPos); i++)
-                {  
-                    // 步近
-                    screenSamplePoint += screenStep;
-                    float2 screenHitUV = permute ? screenSamplePoint.yx : screenSamplePoint;
-                    screenHitUV /= _ScreenSize.xy;
-                    if (any(screenHitUV < 0.0) || any(screenHitUV > 1.0))
-                        return GetSource(IN.uv);
-                    float screenDepth = LinearEyeDepth(GetDepth(screenHitUV), _ZBufferParams);
+                UNITY_LOOP
+                for (int j = 0; j < BINARY_COUNT; j++)
+                {
+                    bool isHit = false;
+                    float viewDepth = _ProjectionParams.x * startPoint.z;
+                    float screenDepth = _ProjectionParams.x * startPoint.z;
+                    float2 screenHitUV;
+
+                    //dither
+                    float2 ditherUV = fmod(screenSamplePoint, 4);
+                    float jitter = dither[ditherUV.x * 4 + ditherUV.y];
+                    screenSamplePoint += screenStep * jitter;
                     
-                    curFac = clamp((screenSamplePoint.x - startScrPos.x) / delta.x, 0, 1);
-                    float viewDepth = _ProjectionParams.x * (startPoint.z * endPoint.z) / lerp(endPoint.z, startPoint.z, curFac);
-                    bool intersecting = viewDepth - screenDepth > 0 && viewDepth - screenDepth < THICKNESS;
-                    if (intersecting)
-                        return GetSource(screenHitUV) + GetSource(IN.uv);
+                    for (int i = 0; i < STEP_COUNT && distance(screenSamplePoint, startScrPos) <= distance(endScrPos, startScrPos); i++)
+                    {
+                        // 步近
+                        screenSamplePoint += screenStep;
+                        screenHitUV = permute ? screenSamplePoint.yx : screenSamplePoint;
+                        screenHitUV /= _ScreenSize.xy;
+                        if (any(screenHitUV < 0.0) || any(screenHitUV > 1.0))
+                            break;
+                        screenDepth = LinearEyeDepth(GetDepth(screenHitUV), _ZBufferParams);
+                        
+                        // 得到步近前后两点的深度
+                        lastFac = oriFac;
+                        curFac = clamp((screenSamplePoint.x - startScrPos.x) / delta.x, 0, 1);
+                        oriFac = curFac;
+
+                        viewDepth = _ProjectionParams.x * (startPoint.z * endPoint.z) / lerp(endPoint.z, startPoint.z, curFac);
+                        float lastViewDepth = _ProjectionParams.x * (startPoint.z * endPoint.z) / lerp(endPoint.z, startPoint.z, lastFac);
+                        if (lastViewDepth > viewDepth)
+                         swap(lastViewDepth, viewDepth);
+                        
+                        if (lastViewDepth - screenDepth > 0.1)
+                        {
+                            isHit = true;
+                            break;
+                        }
+                    }
+                    if (isHit)
+                    {
+                        if (viewDepth - screenDepth < THICKNESS)
+                            return GetSource(screenHitUV) + GetSource(IN.uv);
+                        screenSamplePoint -= screenStep;
+                        screenStep *= 0.5;
+                    }
+                    else
+                        return GetSource(IN.uv);
                 }
-                return GetSource(IN.uv); 
+                return GetSource(IN.uv);
+            }
+            ENDHLSL
+        }
+
+        UsePass "PostProcessingTemplate/GaussainBlur/GAUSSIAN_BLUR_VERTICAL"
+        UsePass "PostProcessingTemplate/GaussainBlur/GAUSSIAN_BLUR_HORIZONTAL"
+
+        Pass {
+            Name "SSR Addtive Pass"
+
+            ZTest NotEqual
+            ZWrite Off
+            Cull Off
+            Blend One One, One Zero
+
+            HLSLPROGRAM
+            #pragma vertex Vert
+            #pragma fragment frag
+
+            float4 frag(Varyings input) : SV_Target {
+                return float4(SAMPLE_TEXTURE2D_X_LOD(_BlitTexture, sampler_LinearRepeat, input.texcoord, _BlitMipLevel).rgb, 1.0);  
+            }
+            ENDHLSL
+        }
+
+        Pass {
+            Name "SSR Balance Pass"
+
+            ZTest NotEqual
+            ZWrite Off
+            Cull Off
+            Blend SrcColor OneMinusSrcColor, One Zero
+            
+            HLSLPROGRAM
+            #pragma vertex Vert
+            #pragma fragment frag
+            float4 frag(Varyings input) : SV_Target {
+                return float4(SAMPLE_TEXTURE2D_X_LOD(_BlitTexture, sampler_LinearRepeat, input.texcoord, _BlitMipLevel).rgb, 1.0);  
             }
             ENDHLSL
         }

@@ -7,6 +7,12 @@ using UnityEngine.Rendering.Universal;
 public struct SSR_Setting
 {
     public Material Material;
+    [Range(0.1f, 10)]
+    public float BlurRadius;
+    [Range(0, 10)]
+    public int DownSample;
+    [Range(0, 10)]
+    public int Iteration;
     public RenderPassEvent RenderPassEvent;
 }
 public class SSR : ScriptableRendererFeature
@@ -38,26 +44,38 @@ public class SSR : ScriptableRendererFeature
         private Material _material;
         private RenderTextureDescriptor _descriptor;
         private RTHandle _sourceRT;
-        private RTHandle _tmpRT;
+        private RTHandle _tmpRT1;
+        private RTHandle _tmpRT2;
+
+        private float _blurSize;
+        private int _downSample;
+        private int _iteration;
 
         private int mCameraViewTopLeftCornerID = Shader.PropertyToID("_CameraViewTopLeftCorner");
         private int mCameraViewXExtentID = Shader.PropertyToID("_CameraViewXExtent");
         private int mCameraViewYExtentID = Shader.PropertyToID("_CameraViewYExtent");
         private int mProjectionParams2ID = Shader.PropertyToID("_ProjectionParams2");
+        private int mBlurRadius = Shader.PropertyToID("_BlurRadius");
         public void Setup(RTHandle source, SSR_Setting setting)
         {
             _material = setting.Material;
             _sourceRT = source;
+            _blurSize = setting.BlurRadius;
+            _downSample = setting.DownSample;
+            _iteration = setting.Iteration;
         }
         public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
         {
             //创建临时纹理
             _descriptor = renderingData.cameraData.cameraTargetDescriptor;
+            _descriptor.width >>= _downSample;
+            _descriptor.height >>= _downSample;
             _descriptor.depthBufferBits = 0;
 
-            RenderingUtils.ReAllocateIfNeeded(ref _tmpRT, _descriptor, FilterMode.Bilinear);
-            
-            ConfigureTarget(_tmpRT);
+            RenderingUtils.ReAllocateIfNeeded(ref _tmpRT1, _descriptor, FilterMode.Bilinear);
+            ConfigureTarget(_tmpRT1);
+            RenderingUtils.ReAllocateIfNeeded(ref _tmpRT2, _descriptor, FilterMode.Bilinear);
+            ConfigureTarget(_tmpRT2);
             ConfigureClear(ClearFlag.All, Color.clear);
             
             //材质传参
@@ -92,6 +110,7 @@ public class SSR : ScriptableRendererFeature
             _material.SetVector(mCameraViewXExtentID, cameraXExtent);  
             _material.SetVector(mCameraViewYExtentID, cameraYExtent);  
             _material.SetVector(mProjectionParams2ID, new Vector4(1.0f / near, renderingData.cameraData.worldSpaceCameraPos.x, renderingData.cameraData.worldSpaceCameraPos.y, renderingData.cameraData.worldSpaceCameraPos.z));  
+            _material.SetFloat(mBlurRadius, _blurSize);
         }
         public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
         {
@@ -109,8 +128,13 @@ public class SSR : ScriptableRendererFeature
                 return;
             }
             
-            Blitter.BlitCameraTexture(cmd, _sourceRT, _tmpRT, _material, 0);
-            Blitter.BlitCameraTexture(cmd, _tmpRT, _sourceRT);
+            Blitter.BlitCameraTexture(cmd, _sourceRT, _tmpRT1, _material, 0);
+            for (int i = 0; i < _iteration; i++)
+            {
+                Blitter.BlitCameraTexture(cmd, _tmpRT1, _tmpRT2, _material, 1);
+                Blitter.BlitCameraTexture(cmd, _tmpRT2, _tmpRT1, _material, 2);
+            }
+            Blitter.BlitCameraTexture(cmd, _tmpRT1, _sourceRT, _material, 4);
             
             context.ExecuteCommandBuffer(cmd);
             cmd.Clear();
@@ -118,7 +142,8 @@ public class SSR : ScriptableRendererFeature
         }
         public void Dispose()
         {
-            _tmpRT?.Release();
+            _tmpRT1?.Release();
+            _tmpRT2?.Release();
         }
     }
 }
