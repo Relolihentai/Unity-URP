@@ -169,8 +169,6 @@ Shader "Custom/SSR_Shader"
 
                 // 缓存当前深度和位置
                 float curFac = 0.0;
-                float lastFac = 0.0;
-                float oriFac = 0.0;
 
                 float2 screenSamplePoint = startScrPos;
                 UNITY_LOOP  
@@ -184,19 +182,9 @@ Shader "Custom/SSR_Shader"
                         return GetSource(IN.uv);
                     float screenDepth = LinearEyeDepth(GetDepth(screenHitUV), _ZBufferParams);
                     
-                    // 得到步近前后两点的深度
-                    lastFac = oriFac;
                     curFac = clamp((screenSamplePoint.x - startScrPos.x) / delta.x, 0, 1);
-                    oriFac = curFac;
-                    /*if (lastFac > curFac)
-                        swap(lastFac, curFac);*/
-
                     float viewDepth = _ProjectionParams.x * (startPoint.z * endPoint.z) / lerp(endPoint.z, startPoint.z, curFac);
-                    float lastViewDepth = _ProjectionParams.x * (startPoint.z * endPoint.z) / lerp(endPoint.z, startPoint.z, lastFac);
-                    
-                    bool isBehind = lastViewDepth + 0.1 >= screenDepth; // 加一个bias 防止stride过小，自反射
-                    bool intersecting = isBehind && (viewDepth >= screenDepth + THICKNESS);
-                    
+                    bool intersecting = viewDepth - screenDepth > 0 && viewDepth - screenDepth < THICKNESS;
                     if (intersecting)
                         return GetSource(screenHitUV) + GetSource(IN.uv);
                 }

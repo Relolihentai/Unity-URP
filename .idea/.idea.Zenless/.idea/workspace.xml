@@ -7,8 +7,6 @@
     <list default="true" id="6d6984a9-f477-4dca-8ddb-7aa66ff09c24" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Zenless/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Zenless/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/SSR/SSR_Shader.shader" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/SSR/SSR_Shader.shader" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/URP-HighFidelity-Renderer.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/URP-HighFidelity-Renderer.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,6 +97,7 @@
       <workItem from="1720633233466" duration="2944000" />
       <workItem from="1720678659859" duration="8023000" />
       <workItem from="1720692202844" duration="20351000" />
+      <workItem from="1720767778522" duration="1037000" />
     </task>
     <servers />
   </component>

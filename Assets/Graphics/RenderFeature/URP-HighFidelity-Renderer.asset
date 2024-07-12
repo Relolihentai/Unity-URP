@@ -107,4 +107,4 @@ MonoBehaviour:
   m_Active: 1
   setting:
     Material: {fileID: 2100000, guid: d78c3208673d1464599311857ef490e9, type: 2}
-    RenderPassEvent: 300
+    RenderPassEvent: 400
