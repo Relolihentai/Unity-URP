@@ -5,17 +5,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6d6984a9-f477-4dca-8ddb-7aa66ff09c24" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_SSR.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_SSR/HiZ_SSR.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_SSR/HiZ_SSR.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_SSR/HiZ_SSR.mat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_SSR/HiZ_SSR.mat.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_SSR/HiZ_SSR.shader" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_SSR/HiZ_SSR.shader.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Lit/Gray_Dark 1.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Lit/Gray_Dark 1.mat.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/SSSR.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Zenless/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Zenless/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/SSR/SSR.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/SSR/SSR.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/SSR/SSR_Shader.shader" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/SSR/SSR_Shader.shader" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/SampleSceneProfile.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/SampleSceneProfile.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Graphics/Material/Lit/Gray.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Lit/Gray.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Graphics/Material/Lit/Gray_Dark.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Lit/Gray_Dark.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Graphics/Material/Lit/Green.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Lit/Green.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Graphics/Material/Lit/Red.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Lit/Red.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_Template.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_Template/CustomScreenSpaceReflection.HLSL" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_Template/CustomScreenSpaceReflection.HLSL.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_Template/CustomScreenSpaceReflection.shader" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_Template/CustomScreenSpaceReflection.shader.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_Template/HiZBuffer.shader" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_Template/HiZBuffer.shader.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_Template/HiZBufferPass.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_Template/HiZBufferPass.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_Template/HiZBufferRendererFeature.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_Template/HiZBufferRendererFeature.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_Template/ScreenSpaceReflectionPass.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_Template/ScreenSpaceReflectionPass.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_Template/ScreenSpaceReflectionRendererFeature.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_Template/ScreenSpaceReflectionRendererFeature.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_Template/ScreenSpaceReflectionVolumeCompact.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_Template/ScreenSpaceReflectionVolumeCompact.cs.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/URP-HighFidelity-Renderer.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/URP-HighFidelity-Renderer.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/URP-HighFidelity.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/URP-HighFidelity.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
@@ -129,7 +143,10 @@
       <workItem from="1720858768749" duration="125000" />
       <workItem from="1720858988394" duration="418000" />
       <workItem from="1720859783169" duration="637000" />
-      <workItem from="1720864338358" duration="6238000" />
+      <workItem from="1720864338358" duration="6629000" />
+      <workItem from="1720878494407" duration="4698000" />
+      <workItem from="1720885379207" duration="3493000" />
+      <workItem from="1720894411460" duration="5850000" />
     </task>
     <servers />
   </component>
