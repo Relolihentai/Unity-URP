@@ -5,12 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6d6984a9-f477-4dca-8ddb-7aa66ff09c24" name="更改" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_SSR.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_SSR/HiZ_SSR.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_SSR/HiZ_SSR.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_SSR/HiZ_SSR.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_SSR/HiZ_SSR.mat.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_SSR/HiZ_SSR.shader" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_SSR/HiZ_SSR.shader.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Zenless/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Zenless/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/SSR/SSR.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/SSR/SSR.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/SSR/SSR_Shader.shader" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/SSR/SSR_Shader.shader" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/SampleSceneProfile.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/SampleSceneProfile.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/URP-HighFidelity-Renderer.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/URP-HighFidelity-Renderer.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/URP-HighFidelity.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/URP-HighFidelity.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,6 +29,9 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Assets/Graphics/RenderFeature/DepthNormal/DepthNormal.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Graphics/RenderFeature/GaussainBlur/GaussainBlur.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_SSR/HiZ_SSR.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_Template/CustomScreenSpaceReflection.HLSL" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_Template/HiZBufferRendererFeature.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.core@14.0.11/Runtime/Utilities/Blit.hlsl" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -60,7 +72,7 @@
 }</component>
   <component name="RunManager" selected="附加到 Unity 编辑器.附加到 Unity 编辑器">
     <configuration name="启动 Unity" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="D:\unity\2022.3.34f1\Editor\Unity.exe" />
+      <option name="EXE_PATH" value="E:\unity\2022.3.34f1\Editor\Unity.exe" />
       <option name="PROGRAM_PARAMETERS" value="-projectPath E:\games\Zenless\Zenless -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="E:\games\Zenless\Zenless" />
       <option name="PASS_PARENT_ENVS" value="1" />
@@ -68,7 +80,7 @@
       <method v="2" />
     </configuration>
     <configuration name="单元测试(批处理模式)" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="D:\unity\2022.3.34f1\Editor\Unity.exe" />
+      <option name="EXE_PATH" value="E:\unity\2022.3.34f1\Editor\Unity.exe" />
       <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath E:\games\Zenless\Zenless -testResults Logs/results.xml -testPlatform EditMode -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="E:\games\Zenless\Zenless" />
       <option name="PASS_PARENT_ENVS" value="1" />
@@ -110,6 +122,14 @@
       <workItem from="1720767778522" duration="10183000" />
       <workItem from="1720788171488" duration="631000" />
       <workItem from="1720788904857" duration="3993000" />
+      <workItem from="1720799808310" duration="9087000" />
+      <workItem from="1720809849487" duration="2475000" />
+      <workItem from="1720855081795" duration="1165000" />
+      <workItem from="1720857091286" duration="656000" />
+      <workItem from="1720858768749" duration="125000" />
+      <workItem from="1720858988394" duration="418000" />
+      <workItem from="1720859783169" duration="637000" />
+      <workItem from="1720864338358" duration="6238000" />
     </task>
     <servers />
   </component>

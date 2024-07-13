@@ -1,4 +1,4 @@
-Shader "Custom/SSR_Shader"
+Shader "Custom/HiZ_SSR_Shader"
 {
     SubShader
     {
@@ -12,8 +12,13 @@ Shader "Custom/SSR_Shader"
         #include "Packages/com.unity.render-pipelines.core/Runtime/Utilities/Blit.hlsl"
 
         CBUFFER_START(UnityPerMaterial)
-        float4 _CameraViewTopLeftCorner, _CameraViewXExtent, _CameraViewYExtent, _ProjectionParams2;
+        
         CBUFFER_END
+        
+        float4 _CameraViewTopLeftCorner, _CameraViewXExtent, _CameraViewYExtent, _ProjectionParams2;
+        float _MaxMipLevel,
+                _MinSmoothness, _Dithering, _Thickness;
+        int _MaxStepCount, _Stride;
         
         ENDHLSL
         
@@ -32,6 +37,8 @@ Shader "Custom/SSR_Shader"
             SAMPLER(sampler_CameraDepthTexture);
             TEXTURE2D_X_FLOAT(_CameraNormalsTexture);
             SAMPLER(sampler_CameraNormalsTexture);
+            TEXTURE2D_X_FLOAT(_HizDepthTexture);
+            SAMPLER(sampler_HizDepthTexture);
             
             struct a2v
             {
@@ -99,7 +106,23 @@ Shader "Custom/SSR_Shader"
             }
             float4 GetSource(float2 uv)
             {  
-                return SAMPLE_TEXTURE2D_X_LOD(_BlitTexture, sampler_LinearRepeat, uv, _BlitMipLevel);  
+                return SAMPLE_TEXTURE2D_X(_BlitTexture, sampler_LinearRepeat, uv);  
+            }
+            float4 GetHitRes(float2 hitUV, float2 uv)
+            {
+                half4 hit = SAMPLE_TEXTURE2D_X(_BlitTexture, sampler_LinearClamp, hitUV);
+                half4 color = SAMPLE_TEXTURE2D_X(_BlitTexture, sampler_LinearClamp, uv);
+                half smoothness = smoothstep(_MinSmoothness, 1.0, SAMPLE_TEXTURE2D_X(_CameraNormalsTexture, sampler_LinearClamp, uv).a);
+                return lerp(color, hit, smoothness);
+            }
+            float GetHizDepth(float2 uv, float mipLevel = 0.0)
+            {
+                #if UNITY_REVERSED_Z
+                    float rawDepth = SAMPLE_TEXTURE2D_X_LOD(_HizDepthTexture, sampler_PointClamp, uv, mipLevel);
+                #else
+                    float rawDepth = lerp(UNITY_NEAR_CLIP_VALUE, 1,SAMPLE_TEXTURE2D_X_LOD(_HiZBuffer, sampler_PointClamp, uv, mipLevel));
+                #endif
+                return rawDepth;
             }
             float GetDepth(float2 uv)
             {
@@ -117,12 +140,7 @@ Shader "Custom/SSR_Shader"
                 v1 = tmp;
             } 
             
-            #define MAXDISTANCE 100
-            #define STRIDE 8
-            #define STEP_COUNT 80
-            #define BINARY_COUNT 6
-            // 能反射和不可能的反射之间的界限  
-            #define THICKNESS 0.4
+            #define MAXDISTANCE 15
 
             float4 frag(v2f IN): SV_Target
             {
@@ -164,7 +182,7 @@ Shader "Custom/SSR_Shader"
                     endScrPos = endScrPos.yx;
                 }
 
-                float2 screenStep = delta / abs(delta.x) * STRIDE;
+                float2 screenStep = delta / abs(delta.x) * _Stride;
 
                 // 缓存当前深度和位置
                 float curFac = 0.0;
@@ -183,56 +201,65 @@ Shader "Custom/SSR_Shader"
 
                 //dither
                 float2 ditherUV = fmod(screenSamplePoint, 4);
-                float jitter = dither[ditherUV.x * 4 + ditherUV.y];
+                float jitter = lerp(1, dither[ditherUV.x * 3 + ditherUV.y], _Dithering);
                 screenSamplePoint += screenStep * jitter;
+
+                //HiZ
+                float mipLevel = 0.0;
                 
                 UNITY_LOOP
-                for (int j = 0; j < BINARY_COUNT; j++)
+                for (int i = 0; i < _MaxStepCount; i++)
                 {
-                    bool isHit = false;
-                    float viewDepth = _ProjectionParams.x * startPoint.z;
-                    float screenDepth = _ProjectionParams.x * startPoint.z;
-                    float2 screenHitUV;
-
+                    // 步近
+                    screenSamplePoint += screenStep * exp2(mipLevel);
                     
+                    float2 screenHitUV = permute ? screenSamplePoint.yx : screenSamplePoint;
+                    screenHitUV /= _ScreenSize.xy;
                     
-                    for (int i = 0; i < STEP_COUNT && distance(screenSamplePoint, startScrPos) <= distance(endScrPos, startScrPos); i++)
+                    if (any(screenHitUV < 0.0) || any(screenHitUV > 1.0))
                     {
-                        // 步近
-                        screenSamplePoint += screenStep;
-                        screenHitUV = permute ? screenSamplePoint.yx : screenSamplePoint;
-                        screenHitUV /= _ScreenSize.xy;
-                        if (any(screenHitUV < 0.0) || any(screenHitUV > 1.0))
-                            break;
-                        screenDepth = LinearEyeDepth(GetDepth(screenHitUV), _ZBufferParams);
-                        
-                        // 得到步近前后两点的深度
-                        lastFac = oriFac;
-                        curFac = clamp((screenSamplePoint.x - startScrPos.x) / delta.x, 0, 1);
-                        oriFac = curFac;
-
-                        viewDepth = _ProjectionParams.x * (startPoint.z * endPoint.z) / lerp(endPoint.z, startPoint.z, curFac);
-                        float lastViewDepth = _ProjectionParams.x * (startPoint.z * endPoint.z) / lerp(endPoint.z, startPoint.z, lastFac);
-                        if (lastViewDepth > viewDepth)
-                         swap(lastViewDepth, viewDepth);
-                        
-                        if (lastViewDepth - screenDepth > 0.1)
+                        if (mipLevel == 0)
                         {
-                            isHit = true;
-                            break;
+                            return float4(0, 0, 0, 1);
+                        }
+                            
+                        screenSamplePoint -= screenStep * exp2(mipLevel);
+                        mipLevel--;
+                        break;
+                    }
+
+                    //采样mipmap
+                    float screenDepth = LinearEyeDepth(GetHizDepth(screenHitUV, mipLevel), _ZBufferParams);
+                    
+                    // 得到步近前后两点的深度
+                    lastFac = oriFac;
+                    curFac = clamp((screenSamplePoint.x - startScrPos.x) / delta.x, 0, 1);
+                    oriFac = curFac;
+                    
+                    float viewDepth = _ProjectionParams.x * (startPoint.z * endPoint.z) / lerp(endPoint.z, startPoint.z, curFac);
+                    float lastViewDepth = _ProjectionParams.x * (startPoint.z * endPoint.z) / lerp(endPoint.z, startPoint.z, lastFac);
+                    if (lastViewDepth > viewDepth)
+                        swap(lastViewDepth, viewDepth);
+                    
+                    if (lastViewDepth - screenDepth > 0.01)
+                    {
+                        if (mipLevel == 0)
+                        {
+                            if (abs(viewDepth - screenDepth) < _Thickness)
+                                return GetHitRes(screenHitUV, IN.uv);
+                        }
+                        else
+                        {
+                            screenSamplePoint -= screenStep * exp2(mipLevel);
+                            mipLevel--;
                         }
                     }
-                    if (isHit)
-                    {
-                        if (viewDepth - screenDepth < THICKNESS)
-                            return GetSource(screenHitUV) + GetSource(IN.uv);
-                        screenSamplePoint -= screenStep;
-                        screenStep *= 0.5;
-                    }
                     else
-                        return GetSource(IN.uv);
+                    {
+                        mipLevel = min(mipLevel + 1, _MaxMipLevel);
+                    }
                 }
-                return GetSource(IN.uv);
+                return float4(0, 0, 0, 1);
             }
             ENDHLSL
         }
@@ -246,7 +273,7 @@ Shader "Custom/SSR_Shader"
             ZTest NotEqual
             ZWrite Off
             Cull Off
-            Blend One One, One Zero
+            Blend SrcColor OneMinusSrcColor, One Zero
 
             HLSLPROGRAM
             #pragma vertex Vert
@@ -264,13 +291,20 @@ Shader "Custom/SSR_Shader"
             ZTest NotEqual
             ZWrite Off
             Cull Off
-            Blend SrcColor OneMinusSrcColor, One Zero
+            //Blend DstColor Zero, One Zero
             
             HLSLPROGRAM
+            
             #pragma vertex Vert
             #pragma fragment frag
+
+            TEXTURE2D_X(_OriBlitTexture);
+            SAMPLER(sampler_OriBlitTexture);
+            
             float4 frag(Varyings input) : SV_Target {
-                return float4(SAMPLE_TEXTURE2D_X_LOD(_BlitTexture, sampler_LinearRepeat, input.texcoord, _BlitMipLevel).rgb, 1.0);  
+                float4 blurColor = float4(SAMPLE_TEXTURE2D_X(_BlitTexture, sampler_LinearRepeat, input.texcoord).rgb, 1.0);
+                float4 sourceColor = float4(SAMPLE_TEXTURE2D_X(_OriBlitTexture, sampler_OriBlitTexture, input.texcoord).rgb, 1.0);
+                return float4(blurColor.rgb + sourceColor.rgb, 1);
             }
             ENDHLSL
         }
