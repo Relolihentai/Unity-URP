@@ -52,7 +52,6 @@ Shader "ShaderTemplate/Default"
                 float2 uv: TEXCOORD0;
                 float3 worldPos: TEXCOORD1;
                 float3 worldNormal: TEXCOORD2;
-                float3 viewDir: TEXCOORD3;
             };
 
             v2f vert(a2v IN)
@@ -63,21 +62,23 @@ Shader "ShaderTemplate/Default"
                 OUT.position = vertex_position_inputs.positionCS;
                 OUT.worldPos = vertex_position_inputs.positionWS;
                 OUT.worldNormal = vertex_normal_inputs.normalWS;
-                OUT.viewDir = GetCameraPositionWS() - OUT.worldPos;
                 OUT.uv = TRANSFORM_TEX(IN.uv, _MainTex);
                 return OUT;
             }
 
             float4 frag(v2f IN): SV_Target
             {
+                // Context
                 Light light = GetMainLight();
                 float3 lightDir = light.direction;
                 float3 lightColor = light.color;
-                float3 halfDir = normalize(IN.viewDir + lightDir);
+                float3 viewDir = normalize(GetCameraPositionWS() - IN.worldPos);
+                float3 viewNormal = mul(unity_WorldToCamera, IN.worldNormal);
+                float3 halfDir = normalize(viewDir + lightDir);
                 float nol = dot(IN.worldNormal, lightDir);
                 float noh = dot(IN.worldNormal, halfDir);
-                float nov = dot(IN.worldNormal, IN.viewDir);
-
+                float nov = dot(IN.worldNormal, viewDir);
+                
                 float4 mainColor = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, IN.uv);
                 float4 finalColor = mainColor * _BaseColor * nol;
                 return finalColor;

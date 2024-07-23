@@ -76,15 +76,12 @@ Shader "Custom/SSSR_Shader"
                 return OUT;
             }
 
-            half3 ReconstructViewPos(float2 uv, float linearEyeDepth)
+            float3 ReconstructViewPos(float2 uv, float linearEyeDepth)
             {
-                // Screen is y-inverted
                 uv.y = 1.0 - uv.y;
-
-                float zScale = linearEyeDepth * _ProjectionParams2.x; // divide by near plane
+                float zScale = linearEyeDepth * _ProjectionParams2.x;
                 float3 viewPos = _CameraViewTopLeftCorner.xyz + _CameraViewXExtent.xyz * uv.x + _CameraViewYExtent.xyz * uv.y;
                 viewPos *= zScale;
-
                 return viewPos;
             }
             float4 TransformViewToScreen(float3 viewPos)
@@ -93,7 +90,7 @@ Shader "Custom/SSSR_Shader"
                 clipPos.xy = (float2(clipPos.x, clipPos.y * _ProjectionParams.x) / clipPos.w * 0.5 + 0.5) * _ScreenSize.xy;
                 return clipPos;
             }
-            // 从视角空间坐标片元uv和深度  
+            // 从视角空间坐标片元uv和深度
             void ReconstructUVAndDepth(float3 wpos, out float2 uv, out float depth)
             {  
                 float4 cpos = mul(UNITY_MATRIX_VP, wpos);  
@@ -237,7 +234,6 @@ Shader "Custom/SSSR_Shader"
                 
                 float2 delta = endScrPos - startScrPos;
                 bool permute = false;
-                
                 if (abs(delta.x) < abs(delta.y))
                 {
                     permute = true;
@@ -245,7 +241,6 @@ Shader "Custom/SSSR_Shader"
                     startScrPos = startScrPos.yx;
                     endScrPos = endScrPos.yx;
                 }
-
                 float2 screenStep = delta / abs(delta.x) * _Stride;
 
                 // 缓存当前深度和位置

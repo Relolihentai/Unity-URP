@@ -5,35 +5,35 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6d6984a9-f477-4dca-8ddb-7aa66ff09c24" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Lit/Gray_Dark 1.mat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Lit/Gray_Dark 1.mat.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/SSSR.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Editor.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Editor/Shader.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Editor/Shader/ShaderGUIReal.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Editor/Shader/ShaderGUIReal.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Editor/Shader/ShaderTemplate.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Editor/Shader/ShaderTemplate.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing/Clother_Keqing.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing/Clother_Keqing.mat.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing/Face_Keqing.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing/Face_Keqing.mat.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing/InEye_Keqing.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing/InEye_Keqing.mat.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing/Skin_Keqing.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing/Skin_Keqing.mat.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Graphics/Model/Keqing.fbx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Graphics/Model/Keqing.fbx.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Graphics/Shader/CelShader.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Graphics/Tools.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Graphics/Tools/NoiseGenerator.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Graphics/Tools/NoiseGenerator.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scenes/Zenless.unity" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scenes/Zenless.unity.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Zenless.sln.DotSettings" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Zenless/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Zenless/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Graphics/Material/Lit/Gray.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Lit/Gray.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Graphics/Material/Lit/Gray_Dark.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Lit/Gray_Dark.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Graphics/Material/Lit/Green.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Lit/Green.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Graphics/Material/Lit/Red.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Lit/Red.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_Template.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_Template/CustomScreenSpaceReflection.HLSL" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_Template/CustomScreenSpaceReflection.HLSL.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_Template/CustomScreenSpaceReflection.shader" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_Template/CustomScreenSpaceReflection.shader.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_Template/HiZBuffer.shader" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_Template/HiZBuffer.shader.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_Template/HiZBufferPass.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_Template/HiZBufferPass.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_Template/HiZBufferRendererFeature.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_Template/HiZBufferRendererFeature.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_Template/ScreenSpaceReflectionPass.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_Template/ScreenSpaceReflectionPass.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_Template/ScreenSpaceReflectionRendererFeature.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_Template/ScreenSpaceReflectionRendererFeature.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_Template/ScreenSpaceReflectionVolumeCompact.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_Template/ScreenSpaceReflectionVolumeCompact.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/SSSR/SSSR.shader" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/SSSR/SSSR.shader" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/SampleSceneProfile.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/SampleSceneProfile.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/URP-HighFidelity-Renderer.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/URP-HighFidelity-Renderer.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/URP-HighFidelity.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/URP-HighFidelity.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Graphics/Shader/Default/Default.shader" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/Shader/Default/Default.shader" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,11 +41,13 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/Editor/Shader/CelFaceShaderGUI.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Editor/Shader/CelShaderGUI.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Editor/Shader/ShaderGUI_Helper.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Graphics/RenderFeature/DepthNormal/DepthNormal.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Graphics/RenderFeature/GaussainBlur/GaussainBlur.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_SSR/HiZ_SSR.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_Template/CustomScreenSpaceReflection.HLSL" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_Template/HiZBufferRendererFeature.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Graphics/Scripts/FaceVector.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.core@14.0.11/Runtime/Utilities/Blit.hlsl" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -63,27 +65,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;UnrealLinkOptionsId&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "UnrealLinkOptionsId",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;rider.external.source.directories&quot;: [
-      &quot;C:\\Users\\13472\\AppData\\Roaming\\JetBrains\\Rider2023.2\\resharper-host\\DecompilerCache&quot;,
-      &quot;C:\\Users\\13472\\AppData\\Roaming\\JetBrains\\Rider2023.2\\resharper-host\\SourcesCache&quot;,
-      &quot;C:\\Users\\13472\\AppData\\Local\\Symbols\\src&quot;
+  "keyToStringList": {
+    "rider.external.source.directories": [
+      "C:\\Users\\13472\\AppData\\Roaming\\JetBrains\\Rider2023.2\\resharper-host\\DecompilerCache",
+      "C:\\Users\\13472\\AppData\\Roaming\\JetBrains\\Rider2023.2\\resharper-host\\SourcesCache",
+      "C:\\Users\\13472\\AppData\\Local\\Symbols\\src"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="附加到 Unity 编辑器.附加到 Unity 编辑器">
     <configuration name="启动 Unity" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="E:\unity\2022.3.34f1\Editor\Unity.exe" />
@@ -147,6 +150,9 @@
       <workItem from="1720878494407" duration="4698000" />
       <workItem from="1720885379207" duration="3493000" />
       <workItem from="1720894411460" duration="5850000" />
+      <workItem from="1720959816260" duration="4704000" />
+      <workItem from="1721730798913" duration="5157000" />
+      <workItem from="1721741868282" duration="23602000" />
     </task>
     <servers />
   </component>

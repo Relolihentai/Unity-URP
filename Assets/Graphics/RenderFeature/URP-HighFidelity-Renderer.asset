@@ -1,29 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-9039253971506586305
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85d2352913758884b9a77c6aef7fca16, type: 3}
-  m_Name: SSSR
-  m_EditorClassIdentifier: 
-  m_Active: 1
-  setting:
-    Material: {fileID: 2100000, guid: abdfa1e98db215d44a508be43acf4986, type: 2}
-    BlurRadius: 0.1
-    DownSample: 0
-    Iteration: 1
-    HitResMinSmooth: 0
-    Dithering: 0.229
-    MaxStepCount: 512
-    Stride: 1
-    Thickness: 0.144
-    RenderPassEvent: 240
 --- !u!114 &-3897422521797742648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40,23 +16,6 @@ MonoBehaviour:
   setting:
     Material: {fileID: 0}
     RenderPassEvent: 0
---- !u!114 &-225422599095612773
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f36fd3c78811c7748a2c07aacbec2872, type: 3}
-  m_Name: HiZMipmap
-  m_EditorClassIdentifier: 
-  m_Active: 1
-  setting:
-    Material: {fileID: 2100000, guid: ad6f85981193efb47a832b459d89dfb0, type: 2}
-    MipCount: 2
-    RenderPassEvent: 220
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74,9 +33,8 @@ MonoBehaviour:
       type: 3}
     hdrDebugViewPS: {fileID: 4800000, guid: 573620ae32aec764abd4d728906d2587, type: 3}
   m_RendererFeatures:
-  - {fileID: -225422599095612773}
-  - {fileID: -9039253971506586305}
-  m_RendererFeatureMap: 9b8a8f285723dffc3f9dcfa9671e8e82
+  - {fileID: 4660229135378132050}
+  m_RendererFeatureMap: 52ac232ab575ac40
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -114,8 +72,22 @@ MonoBehaviour:
     failOperation: 0
     zFailOperation: 0
   m_ShadowTransparentReceive: 1
-  m_RenderingMode: 1
+  m_RenderingMode: 0
   m_DepthPrimingMode: 0
   m_CopyDepthMode: 0
   m_AccurateGbufferNormals: 0
   m_IntermediateTextureMode: 1
+--- !u!114 &4660229135378132050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21b68c93859dc924facb09675e733061, type: 3}
+  m_Name: DepthNormal
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  NoSSAO: 1
