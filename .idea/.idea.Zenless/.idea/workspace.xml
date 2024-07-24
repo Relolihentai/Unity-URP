@@ -5,35 +5,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6d6984a9-f477-4dca-8ddb-7aa66ff09c24" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Editor.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Editor/Shader.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Editor/Shader/ShaderGUIReal.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Editor/Shader/ShaderGUIReal.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Editor/Shader/ShaderTemplate.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Editor/Shader/ShaderTemplate.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing/Clother_Keqing.mat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing/Clother_Keqing.mat.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing/Face_Keqing.mat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing/Face_Keqing.mat.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing/InEye_Keqing.mat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing/InEye_Keqing.mat.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing/Skin_Keqing.mat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing/Skin_Keqing.mat.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Graphics/Model/Keqing.fbx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Graphics/Model/Keqing.fbx.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Graphics/Shader/CelShader.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Graphics/Tools.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Graphics/Tools/NoiseGenerator.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Graphics/Tools/NoiseGenerator.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scenes/Zenless.unity" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scenes/Zenless.unity.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Zenless.sln.DotSettings" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Ling/Clother_Ling.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Ling/Clother_Ling.mat.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/GT_Tonemap.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/GT_Tonemap/GT_ToneMapping.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/GT_Tonemap/GT_ToneMapping.mat.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/GT_Tonemap/GT_ToneMapping.shader" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/GT_Tonemap/GT_ToneMapping.shader.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/GT_Tonemap/GT_Tonemap.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/GT_Tonemap/GT_Tonemap.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Graphics/Textures/Ling/flip.psb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Graphics/Textures/Ling/flip.psb.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Zenless/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Zenless/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/SSSR/SSSR.shader" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/SSSR/SSSR.shader" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing/Clother_Keqing.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing/Clother_Keqing.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing/Face_Keqing.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing/Face_Keqing.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing/Hair_Keqing.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing/Hair_Keqing.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing/InEye_Keqing.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing/InEye_Keqing.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing/Skin_Keqing.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing/Skin_Keqing.mat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/SampleSceneProfile.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/SampleSceneProfile.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/URP-HighFidelity-Renderer.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/URP-HighFidelity-Renderer.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Graphics/Shader/Default/Default.shader" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/Shader/Default/Default.shader" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Graphics/Shader/CelShader/Cel_Base.shader" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/Shader/CelShader/Cel_Base.shader" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Zenless.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Zenless.unity" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,6 +37,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Editor/Shader/CelShaderGUI.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Editor/Shader/ShaderGUI_Helper.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Graphics/RenderFeature/DepthNormal/DepthNormal.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Graphics/RenderFeature/GT_Tonemap/GT_Tonemap.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Graphics/RenderFeature/GaussainBlur/GaussainBlur.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_SSR/HiZ_SSR.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Graphics/Scripts/FaceVector.cs" root0="FORCE_HIGHLIGHTING" />
@@ -65,28 +58,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "UnrealLinkOptionsId",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;UnrealLinkOptionsId&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "rider.external.source.directories": [
-      "C:\\Users\\13472\\AppData\\Roaming\\JetBrains\\Rider2023.2\\resharper-host\\DecompilerCache",
-      "C:\\Users\\13472\\AppData\\Roaming\\JetBrains\\Rider2023.2\\resharper-host\\SourcesCache",
-      "C:\\Users\\13472\\AppData\\Local\\Symbols\\src"
+  &quot;keyToStringList&quot;: {
+    &quot;rider.external.source.directories&quot;: [
+      &quot;C:\\Users\\13472\\AppData\\Roaming\\JetBrains\\Rider2023.2\\resharper-host\\DecompilerCache&quot;,
+      &quot;C:\\Users\\13472\\AppData\\Roaming\\JetBrains\\Rider2023.2\\resharper-host\\SourcesCache&quot;,
+      &quot;C:\\Users\\13472\\AppData\\Local\\Symbols\\src&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="附加到 Unity 编辑器.附加到 Unity 编辑器">
     <configuration name="启动 Unity" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="E:\unity\2022.3.34f1\Editor\Unity.exe" />
@@ -153,6 +146,9 @@
       <workItem from="1720959816260" duration="4704000" />
       <workItem from="1721730798913" duration="5157000" />
       <workItem from="1721741868282" duration="23602000" />
+      <workItem from="1721819645471" duration="10164000" />
+      <workItem from="1721839847743" duration="5249000" />
+      <workItem from="1721847344342" duration="7876000" />
     </task>
     <servers />
   </component>
