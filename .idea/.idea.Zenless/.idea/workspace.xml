@@ -6,21 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="6d6984a9-f477-4dca-8ddb-7aa66ff09c24" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Zenless/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Zenless/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Cube_SmoothNormal.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Cube_SmoothNormal.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Editor/Tools/SmoothNormal.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/Tools/SmoothNormal.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing/Clother_Keqing.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing/Clother_Keqing.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing/Face_Keqing.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing/Face_Keqing.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing/Hair_Keqing.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing/Hair_Keqing.mat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Graphics/Material/Ling/Clother_Ling.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Ling/Clother_Ling.mat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Graphics/Material/Ling/Face_Ling.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Ling/Face_Ling.mat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Graphics/Material/Ling/Hair_Ling.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Ling/Hair_Ling.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Graphics/Shader/CelShader/Cel_Base.shader" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/Shader/CelShader/Cel_Base.shader" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Graphics/Shader/CelShader/Cel_Face.shader" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/Shader/CelShader/Cel_Face.shader" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Graphics/Model/Ling.fbx.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/Model/Ling.fbx.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Graphics/Shader/CelShader/Ling_Base.shader" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/Shader/CelShader/Ling_Base.shader" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Zenless.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Zenless.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sphere_SmoothNormal.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sphere_SmoothNormal.asset.meta" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,6 +29,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Graphics/RenderFeature/HiZ_SSR/HiZ_SSR.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Graphics/Scripts/FaceVector.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.core@14.0.11/Runtime/Utilities/Blit.hlsl" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.core@14.0.11/ShaderLibrary/Packing.hlsl" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -147,6 +139,7 @@
       <workItem from="1721847344342" duration="7876000" />
       <workItem from="1721904268797" duration="5838000" />
       <workItem from="1721912449987" duration="9967000" />
+      <workItem from="1721935403337" duration="5365000" />
     </task>
     <servers />
   </component>

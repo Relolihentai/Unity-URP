@@ -88,6 +88,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _NormalTex:
+        m_Texture: {fileID: 2800000, guid: bd6dc0bf8a9c7e14a8a168e768d773c1, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -131,7 +135,7 @@ Material:
     m_Ints: []
     m_Floats:
     - AffectProjectionXYWhenLessThan_0_95: 1
-    - EyeDepthInNewRangeMulti1: 0.03
+    - EyeDepthInNewRangeMulti1: 0.02
     - EyeDepthInNewRangeMulti2: 1.82
     - EyeDepthInNewRangeMulti_0_01: 0.01
     - EyeDepthRemap0ldRangeX: 0.312
@@ -164,7 +168,7 @@ Material:
     - _MatcapFac: 0
     - _Metallic: 0
     - _OcclusionStrength: 1
-    - _OutlineOffset: 0.19
+    - _OutlineOffset: 1.42
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1

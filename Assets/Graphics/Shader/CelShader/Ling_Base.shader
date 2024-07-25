@@ -7,6 +7,7 @@
         _AmbientFac("Ambient Fac", Range(0, 1)) = 0
         
         _MaskTex ("Mask Tex", 2D) = "white" {}
+        _NormalTex ("Normal Tex", 2D) = "white" {}
         
         _RampTex ("Ramp Tex", 2D) = "white" {}
         
@@ -96,6 +97,8 @@
             #pragma vertex vert
             #pragma fragment frag
 
+            TEXTURE2D(_NormalTex);
+            SAMPLER(sampler_NormalTex);
             TEXTURE2D(_ToonTex);
             SAMPLER(sampler_ToonTex);
             TEXTURE2D(_RampTex);
@@ -120,11 +123,9 @@
                 float4 position: SV_POSITION;
                 float2 uv: TEXCOORD0;
                 float3 worldPos: TEXCOORD1;
-                float3 worldNormal: TEXCOORD2;
-                float4 scrPos : TEXCOORD3;
-                float4 uv7 : TEXCOORD4;
-                float3 worldTanget : TEXCOORD5;
-                float3 worldBitTangent : TEXCOORD6;
+                float3 TBN_worldNormal: TEXCOORD2;
+                float3 TBN_worldTangent : TEXCOORD3;
+                float4 scrPos : TEXCOORD4;
             };
 
             v2f vert(a2v IN)
@@ -134,30 +135,31 @@
                 VertexNormalInputs vertex_normal_inputs = GetVertexNormalInputs(IN.normal.xyz);
                 OUT.position = vertex_position_inputs.positionCS;
                 OUT.worldPos = vertex_position_inputs.positionWS;
-                OUT.worldNormal = vertex_normal_inputs.normalWS;
-                OUT.worldTanget = vertex_normal_inputs.tangentWS;
-                OUT.worldBitTangent = vertex_normal_inputs.bitangentWS;
+                OUT.TBN_worldNormal = vertex_normal_inputs.normalWS;
+                OUT.TBN_worldTangent = vertex_normal_inputs.tangentWS;
                 OUT.uv = IN.uv;
-                OUT.uv7 = IN.uv7;
                 OUT.scrPos = ComputeScreenPos(OUT.position);
                 return OUT;
             }
 
             float4 frag(v2f IN): SV_Target
             {
-                float3x3 tbn = float3x3(IN.worldTanget, IN.worldBitTangent, IN.worldNormal);
-                return float4(mul(IN.uv7.xyz, tbn), 1);
+                float4 NormalTexColor = SAMPLE_TEXTURE2D(_NormalTex, sampler_NormalTex, IN.uv);
+                float3 worldBitTangent = cross(IN.TBN_worldTangent, IN.TBN_worldNormal);
+                float3x3 tbn = float3x3(IN.TBN_worldTangent, worldBitTangent, IN.TBN_worldNormal);
+                float3 worldNormal = mul(UnpackNormal(float4(NormalTexColor.xy, 1, 1)), tbn);
+                
                 // Context
                 Light light = GetMainLight();
                 float3 lightDir = light.direction;
                 float3 lightColor = light.color;
                 float2 scrPos = (IN.scrPos / IN.scrPos.w).xy;
                 float3 viewDir = normalize(GetCameraPositionWS() - IN.worldPos);
-                float3 viewNormal = mul(unity_WorldToCamera, float4(IN.worldNormal, 0)).xyz;
+                float3 viewNormal = mul(unity_WorldToCamera, float4(worldNormal, 0)).xyz;
                 float3 halfDir = normalize(viewDir + lightDir);
-                float nol = dot(IN.worldNormal, lightDir);
-                float noh = dot(IN.worldNormal, halfDir);
-                float nov = dot(IN.worldNormal, viewDir);
+                float nol = dot(worldNormal, lightDir);
+                float noh = dot(worldNormal, halfDir);
+                float nov = dot(worldNormal, viewDir);
 
                 //Lambert HalfLambert
                 float lambert = saturate(nol);
@@ -167,7 +169,7 @@
 
                 //BaseTex
                 float4 BaseTexColor = SAMPLE_TEXTURE2D(_BaseTex, sampler_BaseTex, IN.uv);
-
+                float3 BaseColor = BaseTexColor * halfLambert * NormalTexColor.b;
                 //RedMask
                 float4 MaskTexColor = SAMPLE_TEXTURE2D(_MaskTex, sampler_MaskTex, IN.uv);
                 float Mask_R = MaskTexColor.r;
@@ -175,7 +177,7 @@
                 float Mask_B = MaskTexColor.b;
                 float Mask_A = MaskTexColor.a;
                 
-                return float4(BaseTexColor.xyz, 1);
+                return float4(BaseColor.xyz, 1);
 
                 //MatcapUV
                 float2 matcapUV = (viewNormal * 0.5 + 0.5).xy;
@@ -188,7 +190,7 @@
 
                 //BlinnPhong
                 float3 HalfDir = normalize(viewDir + lightDir);
-                float NOH = dot(IN.worldNormal, HalfDir);
+                float NOH = dot(worldNormal, HalfDir);
                 float BlinnPhong = step(0, nol) * pow(max(0, NOH), _Gloss);
 
                 float3 EmColor = BaseTexColor.xyz * BaseTexColor.a * _EmStrength;
@@ -277,7 +279,7 @@
                 float3x3 tbn = float3x3(vertex_normal_inputs.tangentWS, vertex_normal_inputs.bitangentWS, vertex_normal_inputs.normalWS);
                 //世界空间法线
                 float3 worldNormal = mul(IN.uv7.xyz, tbn);
-                worldNormal = TransformObjectToWorldNormal(worldNormal);
+
                 //观察空间法线
                 float3 viewNormal = mul((float3x3)unity_MatrixV, worldNormal);
 

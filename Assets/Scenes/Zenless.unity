@@ -409,13 +409,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 470680542}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.41938668, y: 0.11186402, z: -0.052163046, w: -0.8993777}
+  m_LocalRotation: {x: 0.09785516, y: -0.8135484, z: 0.14345051, w: 0.55496424}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 50, y: 345.82, z: 0}
+  m_LocalEulerAnglesHint: {x: 20, y: 608.6, z: 0}
 --- !u!114 &470680545
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -501,6 +501,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Keqing
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 295cac78deefe0e48a3ee00f5523f99a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1630794972795428178, guid: 295cac78deefe0e48a3ee00f5523f99a,
         type: 3}
