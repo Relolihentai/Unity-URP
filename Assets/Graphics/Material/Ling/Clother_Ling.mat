@@ -130,6 +130,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - AffectProjectionXYWhenLessThan_0_95: 1
+    - EyeDepthInNewRangeMulti1: 0.03
+    - EyeDepthInNewRangeMulti2: 1.82
+    - EyeDepthInNewRangeMulti_0_01: 0.01
+    - EyeDepthRemap0ldRangeX: 0.312
+    - EyeDepthRemap0ldRangeY: 0
+    - EyeDepthRemap0ldRangeZ: 0
+    - ViewSpaceSnapVertexDirScale: 1
     - _AlphaClip: 0
     - _AlphaToMask: 0
     - _AmbientFac: 0
@@ -140,6 +148,7 @@ Material:
     - _ClearCoatSmoothness: 0
     - _Cull: 2
     - _Cutoff: 0.5
+    - _DepthBias: 0
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -155,7 +164,7 @@ Material:
     - _MatcapFac: 0
     - _Metallic: 0
     - _OcclusionStrength: 1
-    - _OutlineOffset: 6
+    - _OutlineOffset: 0.19
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1
@@ -163,6 +172,7 @@ Material:
     - _RimOffset: 13
     - _RimStrength: 0.6
     - _RimThreshold: 0.08
+    - _Slope_ScaledBias: 0
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -171,7 +181,12 @@ Material:
     - _Surface: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
+    - normalizeViewNormalScaleX: 1
+    - normalizeViewNormalScaleY: 1
     m_Colors:
+    - EyeDepthRemapNewRange: {r: 0.105, g: 0.245, b: 0.6, a: 1}
+    - EyeDepthRemapOldRange: {r: 0.01, g: 2, b: 6, a: 1}
+    - OutlineScreenOffsetWZ: {r: 0, g: 0, b: 0.00044, a: 0.00012}
     - _AmbientColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}

@@ -5,27 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6d6984a9-f477-4dca-8ddb-7aa66ff09c24" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Ling/Clother_Ling.mat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Ling/Clother_Ling.mat.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/GT_Tonemap.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/GT_Tonemap/GT_ToneMapping.mat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/GT_Tonemap/GT_ToneMapping.mat.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/GT_Tonemap/GT_ToneMapping.shader" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/GT_Tonemap/GT_ToneMapping.shader.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/GT_Tonemap/GT_Tonemap.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/GT_Tonemap/GT_Tonemap.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Graphics/Textures/Ling/flip.psb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Graphics/Textures/Ling/flip.psb.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Zenless/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Zenless/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Cube_SmoothNormal.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Cube_SmoothNormal.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Editor/Tools/SmoothNormal.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/Tools/SmoothNormal.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing/Clother_Keqing.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing/Clother_Keqing.mat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing/Face_Keqing.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing/Face_Keqing.mat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing/Hair_Keqing.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing/Hair_Keqing.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing/InEye_Keqing.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing/InEye_Keqing.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing/Skin_Keqing.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Keqing/Skin_Keqing.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/SampleSceneProfile.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/SampleSceneProfile.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/URP-HighFidelity-Renderer.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/RenderFeature/URP-HighFidelity-Renderer.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Graphics/Material/Ling/Clother_Ling.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Ling/Clother_Ling.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Graphics/Material/Ling/Face_Ling.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Ling/Face_Ling.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Graphics/Material/Ling/Hair_Ling.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/Material/Ling/Hair_Ling.mat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Graphics/Shader/CelShader/Cel_Base.shader" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/Shader/CelShader/Cel_Base.shader" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Graphics/Shader/CelShader/Cel_Face.shader" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/Shader/CelShader/Cel_Face.shader" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Graphics/Shader/CelShader/Ling_Base.shader" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/Shader/CelShader/Ling_Base.shader" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Zenless.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Zenless.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sphere_SmoothNormal.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sphere_SmoothNormal.asset.meta" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,6 +28,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/834804db60ae4eb981294088cf979056175e00/7a/5df9368b/Matrix4x4.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Editor/Shader/CelFaceShaderGUI.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Editor/Shader/CelShaderGUI.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Editor/Shader/ShaderGUI_Helper.cs" root0="FORCE_HIGHLIGHTING" />
@@ -149,6 +145,8 @@
       <workItem from="1721819645471" duration="10164000" />
       <workItem from="1721839847743" duration="5249000" />
       <workItem from="1721847344342" duration="7876000" />
+      <workItem from="1721904268797" duration="5838000" />
+      <workItem from="1721912449987" duration="9967000" />
     </task>
     <servers />
   </component>

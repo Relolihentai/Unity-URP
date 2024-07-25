@@ -100,6 +100,7 @@
                 float3 worldNormal: TEXCOORD2;
                 float4 scrPos : TEXCOORD3;
                 float4 uv7 : TEXCOORD4;
+                float3 normal : TEXCOORD5;
             };
 
             v2f vert(a2v IN)
@@ -113,12 +114,12 @@
                 OUT.uv = IN.uv;
                 OUT.uv7 = IN.uv7;
                 OUT.scrPos = ComputeScreenPos(OUT.position);
+                OUT.normal = IN.normal;
                 return OUT;
             }
 
             float4 frag(v2f IN): SV_Target
             {
-                return float4(0, 0, 0, 1);
                 // Context
                 Light light = GetMainLight();
                 float3 lightDir = light.direction;
@@ -295,19 +296,19 @@
             v2f vert(a2v IN)
             {
                 v2f OUT;
-                VertexNormalInputs vertexNormalInputs = GetVertexNormalInputs(IN.normal, IN.tangent);
+                VertexNormalInputs vertex_normal_inputs = GetVertexNormalInputs(IN.normal, IN.tangent);
                 
                 float4 BaseTexColor = SAMPLE_TEXTURE2D_LOD(_BaseTex, sampler_BaseTex, IN.uv, 0);
                 _OutlineOffset = lerp(0, _OutlineOffset, step(BaseTexColor.a, 0.85));
 
-                VertexPositionInputs vertexPositionInputs = GetVertexPositionInputs(IN.vertex.xyz);
+                VertexPositionInputs vertex_position_inputs = GetVertexPositionInputs(IN.vertex.xyz);
                 //OUT.position = vertexPositionInputs.positionCS;
-                float3 worldPos = vertexPositionInputs.positionWS;
+                float3 worldPos = vertex_position_inputs.positionWS;
 
-                float3x3 tbn = float3x3(vertexNormalInputs.tangentWS, vertexNormalInputs.bitangentWS, vertexNormalInputs.normalWS);
+                float3x3 tbn = float3x3(vertex_normal_inputs.tangentWS, vertex_normal_inputs.bitangentWS, vertex_normal_inputs.normalWS);
                 float3 viewNormal = mul((float3x3)UNITY_MATRIX_IT_MV, IN.uv7.xyz);
 
-                worldPos += mul(tbn, IN.uv7.xyz) * _OutlineOffset * 0.001f;
+                worldPos += mul(IN.uv7.xyz, tbn) * _OutlineOffset * 0.001f;
                 
                 //float3 ndcNormal = normalize(TransformWViewToHClip(viewNormal.xyz)) * OUT.position.w;//将法线变换到NDC空间
                 float4 nearUpperRight = mul(unity_CameraInvProjection, float4(1, 1, UNITY_NEAR_CLIP_VALUE, _ProjectionParams.y));//将近裁剪面右上角的位置的顶点变换到观察空间
@@ -366,7 +367,7 @@
                 float3 NightDarkRampColor = SAMPLE_TEXTURE2D(_RampTex, sampler_RampTex, float2(0.003, NightRamp_V));
                 float3 DarkRampColor = lerp(NightDarkRampColor, DayDarkRampColor, IsDay);
 
-                return float4(1, 1, 1, 1);
+                return float4(BaseTexColor * DarkRampColor * _OutlineShadowColor, 1);
             }
             ENDHLSL
         }

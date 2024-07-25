@@ -8,7 +8,7 @@ public struct NormalWeight {
 }
 public class SmoothNormal : EditorWindow
 {
-    [MenuItem("CustomTools/Smooth Normal")]
+    [MenuItem("Tools/Smooth Normal")]
     private static void OpenWindows()
     {
         GetWindow<SmoothNormal>(false, "smooth normal", true).Show();
@@ -197,31 +197,5 @@ public class SmoothNormal : EditorWindow
             smoothNormals[i] = tbn.MultiplyVector(smoothNormals[i]).normalized;
         }
         return smoothNormals;
-    }
-
-    private static Vector3[] GetTangentSpaceNormal( Vector3[] smoothedNormals, Mesh srcMesh ) {
-        Vector3[] normals = srcMesh.normals;
-        Vector4[] tangents = srcMesh.tangents;
-
-        Vector3[] smoothedNormals_TS = new Vector3[smoothedNormals.Length];
-
-        for( int i = 0; i < smoothedNormals_TS.Length; i++ ) {
-            //获取每个顶点的法线、切线，计算副切线
-            Vector3 normal = normals[i];
-            Vector4 tangent = tangents[i];
-            Vector3 tangentV3 = new Vector3( tangent.x, tangent.y, tangent.z );
-            var bitangent = Vector3.Cross( normal, tangentV3 ) * tangent.w;         
-            bitangent = bitangent.normalized;
-
-            var TBN = new Matrix4x4( tangentV3, bitangent, normal, Vector4.zero );
-            TBN = TBN.transpose;
-
-            //转化到 tangent 空间
-            var smoothedNormal_TS = TBN.MultiplyVector( smoothedNormals[i] ).normalized;
-
-            smoothedNormals_TS[i] = smoothedNormal_TS;
-        }
-
-        return smoothedNormals_TS;
     }
 }

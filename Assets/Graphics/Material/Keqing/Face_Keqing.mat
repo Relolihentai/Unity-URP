@@ -171,13 +171,13 @@ Material:
     - _MatcapFac: 0
     - _Metallic: 0
     - _OcclusionStrength: 1
-    - _OutlineOffset: 5
+    - _OutlineOffset: 1.55
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _RampFac: 1.5
     - _ReceiveShadows: 1
     - _RimFac: 8.49
-    - _RimOffset: 0.88
+    - _RimOffset: 0
     - _RimStrength: 0.6
     - _RimThreshold: 0.08
     - _Smoothness: 0.5

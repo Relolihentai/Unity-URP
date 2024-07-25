@@ -25,9 +25,17 @@
         
         normalizeViewNormalScaleX ("Normal Scale X", Float) = 0
         normalizeViewNormalScaleY ("Normal Scale Y", Float) = 0
-        EyeDepthRemap0ldRangeX ("Eye Depth Remap Range X", Range(0, 1)) = 0
-        EyeDepthRemap0ldRangeY ("Eye Depth Remap Range Y", Float) = 0
-        EyeDepthRemap0ldRangeZ ("Eye Depth Remap Range Z", Float) = 0
+        EyeDepthRemapOldRange ("Eye Depth Remap Old Range", Vector) = (0, 0, 0, 0)
+        EyeDepthRemapNewRange ("Eye Depth Remap New Range", Vector) = (0, 0, 0, 0)
+        EyeDepthInNewRangeMulti1 ("Eye Depth In New Range Multi1", Float) = 0
+        EyeDepthInNewRangeMulti2 ("Eye Depth In New Range Multi2", Float) = 0
+        EyeDepthInNewRangeMulti_0_01 ("Eye Depth In New Range 0_01", Float) = 0
+        ViewSpaceSnapVertexDirScale ("View Space Snap Vertex Dir Scale", Float) = 0
+        AffectProjectionXYWhenLessThan_0_95 ("Affect Projection XY When Less Than 0.95", Float) = 1
+        OutlineScreenOffsetWZ ("Out line Screen Offset WZ", Vector) = (0, 0, 0, 0)
+        _Slope_ScaledBias ("_Slope_ScaledBias", Range(0, 4)) = 0
+        _DepthBias ("_DepthBias", Range(0, 1)) = 0
+        
         _OutlineOffset("Outline Width", Range(0, 20)) = 3
         _OutlineColor0 ("Outline Color 0", Color) = (1, 1, 1, 1)
         _OutlineColor1 ("Outline Color 1", Color) = (1, 1, 1, 1)
@@ -59,7 +67,10 @@
         float _MatcapFac, _AmbientFac, _Gloss, _KsNonMetallic, _KsMetallic, _RimFac, _RimOffset, _RimThreshold, _RimStrength,
                 _OutlineOffset, _EmStrength;
         float normalizeViewNormalScaleX, normalizeViewNormalScaleY;
-        float EyeDepthRemap0ldRangeX, EyeDepthRemap0ldRangeY, EyeDepthRemap0ldRangeZ;
+        float EyeDepthInNewRangeMulti1, EyeDepthInNewRangeMulti2, EyeDepthInNewRangeMulti_0_01,
+                ViewSpaceSnapVertexDirScale, AffectProjectionXYWhenLessThan_0_95;
+        float4 OutlineScreenOffsetWZ,
+                EyeDepthRemapOldRange, EyeDepthRemapNewRange;
         CBUFFER_END
 
         TEXTURE2D(_CameraDepthTexture);
@@ -101,6 +112,7 @@
                 float4 vertex: POSITION;
                 float3 normal: NORMAL;
                 float2 uv: TEXCOORD0;
+                float4 uv7 : TEXCOORD7;
             };
 
             struct v2f
@@ -110,6 +122,9 @@
                 float3 worldPos: TEXCOORD1;
                 float3 worldNormal: TEXCOORD2;
                 float4 scrPos : TEXCOORD3;
+                float4 uv7 : TEXCOORD4;
+                float3 worldTanget : TEXCOORD5;
+                float3 worldBitTangent : TEXCOORD6;
             };
 
             v2f vert(a2v IN)
@@ -120,13 +135,18 @@
                 OUT.position = vertex_position_inputs.positionCS;
                 OUT.worldPos = vertex_position_inputs.positionWS;
                 OUT.worldNormal = vertex_normal_inputs.normalWS;
+                OUT.worldTanget = vertex_normal_inputs.tangentWS;
+                OUT.worldBitTangent = vertex_normal_inputs.bitangentWS;
                 OUT.uv = IN.uv;
+                OUT.uv7 = IN.uv7;
                 OUT.scrPos = ComputeScreenPos(OUT.position);
                 return OUT;
             }
 
             float4 frag(v2f IN): SV_Target
             {
+                float3x3 tbn = float3x3(IN.worldTanget, IN.worldBitTangent, IN.worldNormal);
+                return float4(mul(IN.uv7.xyz, tbn), 1);
                 // Context
                 Light light = GetMainLight();
                 float3 lightDir = light.direction;
@@ -200,6 +220,8 @@
             Tags {"RenderPipeline" = "UniversalPipeline" }
             
             Cull Front
+            ZTest Less
+            Offset [_Slope_ScaledBias], [_DepthBias]
             HLSLPROGRAM
 
             #pragma vertex vert
@@ -238,35 +260,77 @@
             v2f vert(a2v IN)
             {
                 v2f OUT;
+                
+                // Z 是前后偏移控制 0.5 表示中间，逆向模型的 Z 都是 0.5
+                // W 是 eyeDepth 缩放控制，逆向模型大部分是 0.5，也有 0.4，0 的
+                float4 Vertex_FrontBackOffsetZ_DepthScaleW = float4(0, 0, IN.uv2.xy);
+                Vertex_FrontBackOffsetZ_DepthScaleW = float4(0, 0, 0.5, 0.5);
 
+                //世界空间相对于摄像机的坐标
                 float4 worldPosButSnapToCamera = mul(unity_ObjectToWorld, IN.vertex);
                 worldPosButSnapToCamera.xyz -= GetCameraPositionWS();
+
+                //观察空间坐标
                 float3 viewPos = mul((float3x3)unity_MatrixV, worldPosButSnapToCamera.xyz);
-                float3 normal = IN.uv7.xyz;
-                float3 worldNormal = mul((float3x3)unity_ObjectToWorld, normal);
+
+                VertexNormalInputs vertex_normal_inputs = GetVertexNormalInputs(IN.normal, IN.tangent);
+                float3x3 tbn = float3x3(vertex_normal_inputs.tangentWS, vertex_normal_inputs.bitangentWS, vertex_normal_inputs.normalWS);
+                //世界空间法线
+                float3 worldNormal = mul(IN.uv7.xyz, tbn);
+                worldNormal = TransformObjectToWorldNormal(worldNormal);
+                //观察空间法线
                 float3 viewNormal = mul((float3x3)unity_MatrixV, worldNormal);
 
+                //Z值被舍弃，固定0.01
                 float3 fixViewNormal;
                 fixViewNormal.xy = viewNormal.xy;
                 fixViewNormal.z = 0.01;
 
+                //标准化的观察空间法线，加一个缩放
                 float2 normalizeViewNormalXY = normalize(fixViewNormal).xy;
                 normalizeViewNormalXY *= float2(normalizeViewNormalScaleX, normalizeViewNormalScaleY);
 
+                // cot( 0.5*45° ) = 2.414
+                // UNITY_MATRIX_P[1u].y = cot( 0.5 * FOV )
+                // FOV 越小，cot( 0.5 * FOV ) 越大，2.414 / UNITY_MATRIX_P[1u].y; 越小
+                //   FOV 越小，人物越大，描边在3D空间上变小，最终屏幕上粗度相应保持不变
                 float fov45AdaptScale = 2.414 / UNITY_MATRIX_P[1u].y;
 
+                //观察空间Z值（正的）
                 float eyeDepth_ofSnapToCamera = -viewPos.z;
 
-                EyeDepthRemap0ldRangeX *= 0.01;
-                bool eyeDepth_is_small = eyeDepth_ofSnapToCamera * fov45AdaptScale < EyeDepthRemap0ldRangeY;
-                float2 eyeDepthParams_oldRange = eyeDepth_is_small ? float2(EyeDepthRemap0ldRangeX, EyeDepthRemap0ldRangeY) : float2(EyeDepthRemap0ldRangeY, EyeDepthRemap0ldRangeZ);
-                float2 eyeDepthParams_newRange = eyeDepth_is_small ? float2(EyeDepthRemap0ldRangeX, EyeDepthRemap0ldRangeY) : float2(EyeDepthRemap0ldRangeY, EyeDepthRemap0ldRangeZ);
+                bool eyeDepth_is_small = eyeDepth_ofSnapToCamera * fov45AdaptScale < EyeDepthRemapOldRange.y;
+                float2 eyeDepthParams_oldRange = eyeDepth_is_small ? EyeDepthRemapOldRange.xy : EyeDepthRemapOldRange.yz;
+                float2 eyeDepthParams_newRange = eyeDepth_is_small ? EyeDepthRemapNewRange.xy : EyeDepthRemapNewRange.yz;
 
                 float eyeDepthInNewRange = EyeDepthRemap(-viewPos.z * fov45AdaptScale, eyeDepthParams_oldRange, eyeDepthParams_newRange);
-                float eyeDepthInNewRangeScale = eyeDepthInNewRange * 0.02 * IN.uv2.y;
-                float3 normalBiasViewPos = viewPos;
-                viewPos.xy += normalizeViewNormalXY * eyeDepthInNewRange;
-                OUT.position = mul(UNITY_MATRIX_P, float4(viewPos, 1.0));
+                float eyeDepthInNewRangeScale = eyeDepthInNewRange;
+                eyeDepthInNewRangeScale *= EyeDepthInNewRangeMulti1 * EyeDepthInNewRangeMulti2;
+                eyeDepthInNewRangeScale *= 100.0 * EyeDepthInNewRangeMulti_0_01;
+                eyeDepthInNewRangeScale *= 0.414250195026397705078125;
+                eyeDepthInNewRangeScale *= Vertex_FrontBackOffsetZ_DepthScaleW.w;
+
+                float3 viewPos_normalize = normalize(viewPos);
+
+                float3 viewSpaceDir_a_little;
+                viewSpaceDir_a_little = viewPos_normalize * ViewSpaceSnapVertexDirScale;
+                viewSpaceDir_a_little *= EyeDepthInNewRangeMulti_0_01;
+
+                float3 viewPos_bias = viewSpaceDir_a_little * (Vertex_FrontBackOffsetZ_DepthScaleW.z - 0.5) + viewPos;
+
+                float3 normalBiasViewPos = viewPos_bias;
+                normalBiasViewPos.xy += normalizeViewNormalXY * eyeDepthInNewRangeScale;
+
+                float4 clipPos = mul(UNITY_MATRIX_P, float4(normalBiasViewPos, 1.0));
+
+                float2 clipPosXYOffset;
+                clipPosXYOffset.x = clipPos.w * OutlineScreenOffsetWZ.z;
+                clipPosXYOffset.y = clipPos.w * OutlineScreenOffsetWZ.w * _ProjectionParams.x;
+                float2 clipPosApplyXYOffset = clipPosXYOffset.xy * 2.0 + clipPos.xy;
+
+                clipPos.xy = AffectProjectionXYWhenLessThan_0_95 < 0.95 ? clipPosApplyXYOffset : clipPos.xy;
+
+                OUT.position = clipPos;
                 OUT.uv = IN.uv;
                 return OUT;
             }

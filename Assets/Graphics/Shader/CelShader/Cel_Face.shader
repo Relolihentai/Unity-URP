@@ -245,23 +245,32 @@
             v2f vert(a2v IN)
             {
                 v2f OUT;
+                VertexNormalInputs vertex_normal_inputs = GetVertexNormalInputs(IN.normal, IN.tangent);
                 
-                float FaceMask = SAMPLE_TEXTURE2D_LOD(_Face_Mask_Tex, sampler_Face_Mask_Tex, float4(IN.uv, 0, 0), 0).a;
-                
-                _OutlineOffset = lerp(0, _OutlineOffset, FaceMask);
+                float4 BaseTexColor = SAMPLE_TEXTURE2D_LOD(_BaseTex, sampler_BaseTex, IN.uv, 0);
+                _OutlineOffset = lerp(0, _OutlineOffset, step(BaseTexColor.a, 0.85));
+                float4 FaceMaskColor = SAMPLE_TEXTURE2D_LOD(_Face_Mask_Tex, sampler_Face_Mask_Tex, IN.uv, 0);
+                _OutlineOffset = lerp(0, _OutlineOffset, step(0.5, FaceMaskColor.a));
+
                 VertexPositionInputs vertex_position_inputs = GetVertexPositionInputs(IN.vertex.xyz);
-                OUT.position = vertex_position_inputs.positionCS;
-                float3 viewNormal = mul((float3x3)UNITY_MATRIX_IT_MV, IN.normal.xyz);
-                //将法线变换到NDC空间，乘以w，消除透视影响
-                float3 ndcNormal = normalize(TransformWViewToHClip(viewNormal.xyz)) * OUT.position.w;
-                //将近裁剪面右上角的位置的顶点变换到观察空间
-                float4 nearUpperRight = mul(unity_CameraInvProjection, float4(1, 1, UNITY_NEAR_CLIP_VALUE, _ProjectionParams.y));
-                //求得屏幕宽高比
-                float aspect = abs(nearUpperRight.y / nearUpperRight.x);
-                ndcNormal.x *= aspect;
-                OUT.position.xy += 0.001 * clamp(_OutlineOffset * ndcNormal.xy, -50, 50);
-                OUT.uv = TRANSFORM_TEX(IN.uv, _BaseTex);
+                //OUT.position = vertexPositionInputs.positionCS;
+                float3 worldPos = vertex_position_inputs.positionWS;
+
+                float3x3 tbn = float3x3(vertex_normal_inputs.tangentWS, vertex_normal_inputs.bitangentWS, vertex_normal_inputs.normalWS);
+                float3 viewNormal = mul((float3x3)UNITY_MATRIX_IT_MV, IN.uv7.xyz);
+
+                worldPos += mul(IN.uv7.xyz, tbn) * _OutlineOffset * 0.001f;
                 
+                //float3 ndcNormal = normalize(TransformWViewToHClip(viewNormal.xyz)) * OUT.position.w;//将法线变换到NDC空间
+                float4 nearUpperRight = mul(unity_CameraInvProjection, float4(1, 1, UNITY_NEAR_CLIP_VALUE, _ProjectionParams.y));//将近裁剪面右上角的位置的顶点变换到观察空间
+                float aspect = abs(nearUpperRight.y / nearUpperRight.x);//求得屏幕宽高比
+                //ndcNormal.x *= aspect;
+
+                float zCurve = pow(1 / OUT.position.w, 0.5);
+                float fovCurve = pow(GetCameraFOV(), 0.7f);
+                //OUT.position.xy += 0.001f * _OutlineOffset * IN.color.a * ndcNormal.xy;
+                OUT.position = TransformWorldToHClip(worldPos);
+                OUT.uv = IN.uv;
                 return OUT;
             }
             float4 frag(v2f IN) : SV_Target
