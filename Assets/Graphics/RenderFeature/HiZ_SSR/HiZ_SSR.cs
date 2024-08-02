@@ -73,7 +73,6 @@ public class HiZ_SSR : ScriptableRendererFeature
         private int mStrideID = Shader.PropertyToID("_Stride");
         private int mThicknessID = Shader.PropertyToID("_Thickness");
 
-        private int mOriBlitTextureID = Shader.PropertyToID("_OriBlitTexture");
         public void Setup(RTHandle source, HiZ_SSR_Setting setting)
         {
             _material = setting.Material;
@@ -156,13 +155,10 @@ public class HiZ_SSR : ScriptableRendererFeature
             
             var cmd = CommandBufferPool.Get(_passTag);
             
-            Blitter.BlitCameraTexture(cmd, _sourceRT, _oriSourceRT);
-            cmd.SetGlobalTexture(mOriBlitTextureID, _oriSourceRT);
-            
             Blitter.BlitCameraTexture(cmd, _sourceRT, _gaussainBlurRT1, _material, 0);
             for (int i = 0; i < _iteration; i++)
             { 
-                Blitter.BlitCameraTexture(cmd, _gaussainBlurRT1, _gaussainBlurRT2, _material, 1); 
+                Blitter.BlitCameraTexture(cmd, _gaussainBlurRT1, _gaussainBlurRT2, _material, 1);
                 Blitter.BlitCameraTexture(cmd, _gaussainBlurRT2, _gaussainBlurRT1, _material, 2);
             }
             Blitter.BlitCameraTexture(cmd, _gaussainBlurRT1, _sourceRT, _material, 4);

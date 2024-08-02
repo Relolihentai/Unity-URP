@@ -114,18 +114,23 @@
             {
                 float4 vertex: POSITION;
                 float3 normal: NORMAL;
+                float4 tangent : TANGENT;
                 float2 uv: TEXCOORD0;
-                float4 uv7 : TEXCOORD7;
+                float4 uv4 : TEXCOORD4;
+                float4 color : COLOR;
             };
 
             struct v2f
             {
                 float4 position: SV_POSITION;
                 float2 uv: TEXCOORD0;
-                float3 worldPos: TEXCOORD1;
+                float3 worldPos: TEXCOORD6;
                 float3 TBN_worldNormal: TEXCOORD2;
                 float3 TBN_worldTangent : TEXCOORD3;
                 float4 scrPos : TEXCOORD4;
+
+                float4 color : TEXCOORD5;
+                float4 uv4 : TEXCOORD1;
             };
 
             v2f vert(a2v IN)
@@ -137,13 +142,17 @@
                 OUT.worldPos = vertex_position_inputs.positionWS;
                 OUT.TBN_worldNormal = vertex_normal_inputs.normalWS;
                 OUT.TBN_worldTangent = vertex_normal_inputs.tangentWS;
+                OUT.color = IN.color;
                 OUT.uv = IN.uv;
+                OUT.uv4 = IN.uv4;
                 OUT.scrPos = ComputeScreenPos(OUT.position);
                 return OUT;
             }
 
             float4 frag(v2f IN): SV_Target
             {
+                //return float4(IN.uv1.xyz, 1);
+                return float4(IN.uv4.x, IN.uv4.x, IN.uv4.x, 1);
                 float4 NormalTexColor = SAMPLE_TEXTURE2D(_NormalTex, sampler_NormalTex, IN.uv);
                 float3 worldBitTangent = cross(IN.TBN_worldTangent, IN.TBN_worldNormal);
                 float3x3 tbn = float3x3(IN.TBN_worldTangent, worldBitTangent, IN.TBN_worldNormal);
@@ -169,6 +178,7 @@
 
                 //BaseTex
                 float4 BaseTexColor = SAMPLE_TEXTURE2D(_BaseTex, sampler_BaseTex, IN.uv);
+                return float4(BaseTexColor.xyz, 1);
                 float3 BaseColor = BaseTexColor * halfLambert * NormalTexColor.b;
                 //RedMask
                 float4 MaskTexColor = SAMPLE_TEXTURE2D(_MaskTex, sampler_MaskTex, IN.uv);
@@ -332,7 +342,7 @@
 
                 clipPos.xy = AffectProjectionXYWhenLessThan_0_95 < 0.95 ? clipPosApplyXYOffset : clipPos.xy;
 
-                OUT.position = clipPos;
+                OUT.position = TransformObjectToHClip(IN.vertex);
                 OUT.uv = IN.uv;
                 return OUT;
             }

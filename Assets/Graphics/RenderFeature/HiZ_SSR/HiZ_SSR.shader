@@ -220,7 +220,7 @@ Shader "Custom/HiZ_SSR_Shader"
                     {
                         if (mipLevel == 0)
                         {
-                            return float4(0, 0, 0, 1);
+                            return GetSource(IN.uv);
                         }
                             
                         screenSamplePoint -= screenStep * exp2(mipLevel);
@@ -259,7 +259,7 @@ Shader "Custom/HiZ_SSR_Shader"
                         mipLevel = min(mipLevel + 1, _MaxMipLevel);
                     }
                 }
-                return float4(0, 0, 0, 1);
+                return GetSource(IN.uv);
             }
             ENDHLSL
         }
@@ -291,20 +291,13 @@ Shader "Custom/HiZ_SSR_Shader"
             ZTest NotEqual
             ZWrite Off
             Cull Off
-            //Blend DstColor Zero, One Zero
+            Blend SrcColor OneMinusSrcColor, One Zero
             
             HLSLPROGRAM
-            
             #pragma vertex Vert
             #pragma fragment frag
-
-            TEXTURE2D_X(_OriBlitTexture);
-            SAMPLER(sampler_OriBlitTexture);
-            
             float4 frag(Varyings input) : SV_Target {
-                float4 blurColor = float4(SAMPLE_TEXTURE2D_X(_BlitTexture, sampler_LinearRepeat, input.texcoord).rgb, 1.0);
-                float4 sourceColor = float4(SAMPLE_TEXTURE2D_X(_OriBlitTexture, sampler_OriBlitTexture, input.texcoord).rgb, 1.0);
-                return float4(blurColor.rgb + sourceColor.rgb, 1);
+                return float4(SAMPLE_TEXTURE2D_X_LOD(_BlitTexture, sampler_LinearRepeat, input.texcoord, _BlitMipLevel).rgb, 1.0);  
             }
             ENDHLSL
         }
