@@ -1,29 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-4699623223235194150
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5072b8f19e8251b41ad17ce7a2a7b0a9, type: 3}
-  m_Name: HiZSSR
-  m_EditorClassIdentifier: 
-  m_Active: 0
-  setting:
-    Material: {fileID: 2100000, guid: 5d6d32893f9dd384189646074cd50a47, type: 2}
-    BlurRadius: 1.03
-    DownSample: 0
-    Iteration: 1
-    HitResMinSmooth: 0.553
-    Dithering: 0.61
-    MaxStepCount: 344
-    Stride: 1
-    Thickness: 1
-    RenderPassEvent: 500
 --- !u!114 &-3897422521797742648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59,10 +35,7 @@ MonoBehaviour:
   m_RendererFeatures:
   - {fileID: 4660229135378132050}
   - {fileID: 4252694523517288128}
-  - {fileID: 7070596002195991338}
-  - {fileID: -4699623223235194150}
-  - {fileID: 1514101464527991677}
-  m_RendererFeatureMap: 52ac232ab575ac40c03e7f2c239b043b2a6b30359acd1f62dad2e3009495c7be7df3168b422b0315
+  m_RendererFeatureMap: 52ac232ab575ac40c03e7f2c239b043b
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -100,27 +73,11 @@ MonoBehaviour:
     failOperation: 0
     zFailOperation: 0
   m_ShadowTransparentReceive: 1
-  m_RenderingMode: 1
+  m_RenderingMode: 2
   m_DepthPrimingMode: 0
   m_CopyDepthMode: 0
   m_AccurateGbufferNormals: 0
   m_IntermediateTextureMode: 1
---- !u!114 &1514101464527991677
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5157c33baa53e441b2b3a817c4ff7c0, type: 3}
-  m_Name: GTTonemap
-  m_EditorClassIdentifier: 
-  m_Active: 1
-  setting:
-    Material: {fileID: 2100000, guid: 5ca8033b0d52bcf40a272fb97af05203, type: 2}
-    RenderPassEvent: 600
 --- !u!114 &4252694523517288128
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,20 +127,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Active: 1
   NoSSAO: 1
---- !u!114 &7070596002195991338
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f36fd3c78811c7748a2c07aacbec2872, type: 3}
-  m_Name: HiZMipmap
-  m_EditorClassIdentifier: 
-  m_Active: 0
-  setting:
-    Material: {fileID: 2100000, guid: ad6f85981193efb47a832b459d89dfb0, type: 2}
-    MipCount: 3
-    RenderPassEvent: 500
