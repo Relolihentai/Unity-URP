@@ -48,6 +48,6 @@ Material:
     - _Smoothness: 0.87
     - _WorkflowMode: 1
     m_Colors:
-    - _BaseColor: {r: 0.5849056, g: 0.34321818, b: 0.34321818, a: 1}
-    - _Color: {r: 0.5849056, g: 0.34321815, b: 0.34321815, a: 1}
+    - _BaseColor: {r: 0.764151, g: 0.764151, b: 0.764151, a: 1}
+    - _Color: {r: 0.764151, g: 0.764151, b: 0.764151, a: 1}
   m_BuildTextureStacks: []
