@@ -8,6 +8,9 @@ public struct SSAO_Setting
 {
     public Material Material;
     public RenderPassEvent RenderPassEvent;
+    [Range(0.1f, 3)]public float SphereRadius;
+    [Range(0, 100)]public int SampleCount;
+    [Range(1, 10)] public float OffsetBound;
 }
 public class SSAO : ScriptableRendererFeature
 {
@@ -42,10 +45,16 @@ class SSAOPass : ScriptableRenderPass
     private RenderTextureDescriptor _descriptor;
 
     private int Toy_MATRIX_InvPID = Shader.PropertyToID("Toy_MATRIX_InvP");
+    private int sphereRadiusID = Shader.PropertyToID("sphereRadius");
+    private int sampleCountID = Shader.PropertyToID("sampleCount");
+    private int offsetBoundID = Shader.PropertyToID("offsetBound");
     public void Setup(RTHandle source, SSAO_Setting setting)
     {
         _sourceRT = source;
         _material = setting.Material;
+        _material.SetFloat(sphereRadiusID, setting.SphereRadius);
+        _material.SetInt(sampleCountID, setting.SampleCount);
+        _material.SetFloat(offsetBoundID, setting.OffsetBound);
     }
     public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
     {

@@ -94,6 +94,9 @@ MonoBehaviour:
   setting:
     Material: {fileID: 2100000, guid: 0e2ce6c70640407418f49abf59cbb062, type: 2}
     RenderPassEvent: 300
+    SphereRadius: 1
+    SampleCount: 64
+    OffsetBound: 4.69
 --- !u!114 &4660229135378132050
 MonoBehaviour:
   m_ObjectHideFlags: 0
