@@ -8,9 +8,13 @@ public struct SSAO_Setting
 {
     public Material Material;
     public RenderPassEvent RenderPassEvent;
-    [Range(0.1f, 3)]public float SphereRadius;
+    [Range(0.1f, 0.3f)]public float SphereRadius;
     [Range(0, 100)]public int SampleCount;
     [Range(1, 10)] public float OffsetBound;
+    [Range(0, 2)] public float SelfCheckBound;
+    [Range(0, 1)] public float EmptySpaceSigma;
+    [Range(0, 1)] public float ValueSpaceSigma;
+    [Range(0, 10)] public int FilteringRadius;
 }
 public class SSAO : ScriptableRendererFeature
 {
@@ -42,12 +46,18 @@ class SSAOPass : ScriptableRenderPass
     private Material _material;
     private RTHandle _sourceRT;
     private RTHandle _tmpRT0;
+    private RTHandle _tmpRT1;
     private RenderTextureDescriptor _descriptor;
 
     private int Toy_MATRIX_InvPID = Shader.PropertyToID("Toy_MATRIX_InvP");
     private int sphereRadiusID = Shader.PropertyToID("sphereRadius");
     private int sampleCountID = Shader.PropertyToID("sampleCount");
     private int offsetBoundID = Shader.PropertyToID("offsetBound");
+    private int emptySpaceSigmaID = Shader.PropertyToID("emptySpaceSigma");
+    private int valueSpaceSigmaID = Shader.PropertyToID("valueSpaceSigma");
+    private int filteringRadiusID = Shader.PropertyToID("filteringRadius");
+    private int selfCheckBoundID = Shader.PropertyToID("selfCheckBound");
+    private int _SSAO_MapID = Shader.PropertyToID("_SSAO_Map");
     public void Setup(RTHandle source, SSAO_Setting setting)
     {
         _sourceRT = source;
@@ -55,6 +65,10 @@ class SSAOPass : ScriptableRenderPass
         _material.SetFloat(sphereRadiusID, setting.SphereRadius);
         _material.SetInt(sampleCountID, setting.SampleCount);
         _material.SetFloat(offsetBoundID, setting.OffsetBound);
+        _material.SetFloat(emptySpaceSigmaID, setting.EmptySpaceSigma);
+        _material.SetFloat(valueSpaceSigmaID, setting.ValueSpaceSigma);
+        _material.SetInt(filteringRadiusID, setting.FilteringRadius);
+        _material.SetFloat(selfCheckBoundID, setting.SelfCheckBound);
     }
     public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
     {
@@ -62,6 +76,7 @@ class SSAOPass : ScriptableRenderPass
         _descriptor = renderingData.cameraData.cameraTargetDescriptor;
         _descriptor.depthBufferBits = 0;
         RenderingUtils.ReAllocateIfNeeded(ref _tmpRT0, _descriptor, FilterMode.Bilinear);
+        RenderingUtils.ReAllocateIfNeeded(ref _tmpRT1, _descriptor, FilterMode.Bilinear);
         ConfigureTarget(renderer.cameraColorTargetHandle);
         ConfigureClear(ClearFlag.None, Color.white);
     }
@@ -82,6 +97,9 @@ class SSAOPass : ScriptableRenderPass
         var cmd = CommandBufferPool.Get(_passTag);
         cmd.SetGlobalMatrix(Toy_MATRIX_InvPID, renderingData.cameraData.GetProjectionMatrix().inverse);
         Blitter.BlitCameraTexture(cmd, _sourceRT, _tmpRT0, _material, 0);
+        Blitter.BlitCameraTexture(cmd, _tmpRT0, _tmpRT1, _material, 1);
+        cmd.SetGlobalTexture(_SSAO_MapID, _tmpRT1);
+        Blitter.BlitCameraTexture(cmd, _sourceRT, _tmpRT0, _material, 2);
         Blitter.BlitCameraTexture(cmd, _tmpRT0, _sourceRT);
         context.ExecuteCommandBuffer(cmd);
         cmd.Clear();
@@ -89,7 +107,8 @@ class SSAOPass : ScriptableRenderPass
     }
     public void Dispose()
     {
-        _tmpRT0?.Release();   
+        _tmpRT0?.Release();
+        _tmpRT1?.Release();
     }
 }
 

@@ -13,10 +13,11 @@
         #include "Assets/Graphics/Shader/Library/Input.hlsl"
         #include "Assets/Graphics/Shader/Library/Random.hlsl"
 
-        CBUFFER_START(Unity_PerMaterial)
+        CBUFFER_START(UnityPerMaterial)
         float sphereRadius;
         float sampleCount;
         float offsetBound;
+        float selfCheckBound;
         CBUFFER_END
         
         TEXTURE2D_X_FLOAT(_CameraDepthTexture);
@@ -120,15 +121,69 @@
                     samplePointDepth = LinearEyeDepth(samplePointDepth, _ZBufferParams);
                     float sampleDepthRealDepth = samplePointClipPos.w;
                     float offset = abs(sampleDepthRealDepth - samplePointDepth);
+
+                    float selfCheck = step(samplePointDepth, sampleDepthRealDepth - selfCheckBound);
                     float rangeCheck = smoothstep(0, offsetBound, sphereRadius / offset);
-                    ssao += (sampleDepthRealDepth > samplePointDepth ? 1 : 0) * rangeCheck;
+                    ssao += (sampleDepthRealDepth > samplePointDepth ? 1 : 0) * rangeCheck * selfCheck;
                 }
                 ssao /= sampleCount;
                 ssao = 1 - min(ssao, 1);
                 return ssao;
+            }
+            ENDHLSL
+        }
+
+        UsePass "PostProcessingTemplate/BilateralFiltering/BilateralFilteringPass"
+        
+        Pass
+        {
+            Tags
+            {
+                "LightMode" = "UniversalForward"
+            }
+            HLSLPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+
+            TEXTURE2D(_SSAO_Map);
+            SAMPLER(sampler_SSAO_Map);
+            struct a2v
+            {
+                #if SHADER_API_GLES
+                        float4 positionOS : POSITION;
+                        float2 uv : TEXCOORD0;
+                #else
+                        uint vertexID : SV_VertexID;
+                #endif
+                        UNITY_VERTEX_INPUT_INSTANCE_ID
+            };
+            struct v2f
+            {
+                float4 position: SV_POSITION;
+                float2 uv: TEXCOORD0;
+            };
+            v2f vert(a2v IN)
+            {
+                v2f OUT;
                 
-                float4 finalColor = SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearRepeat, IN.uv);
-                return finalColor * ssao;
+                #if SHADER_API_GLES
+                        float4 pos = v.positionOS;
+                        float2 uv  = v.uv;
+                #else
+                        float4 pos = GetFullScreenTriangleVertexPosition(IN.vertexID);
+                        float2 uv = GetFullScreenTriangleTexCoord(IN.vertexID);
+                #endif
+
+                OUT.position = pos;
+                OUT.uv = uv * _BlitScaleBias.xy + _BlitScaleBias.zw;
+                return OUT;
+            }
+
+            float4 frag(v2f IN): SV_Target
+            {
+                float4 curColor = SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearClamp, IN.uv);
+                float ao = SAMPLE_TEXTURE2D(_SSAO_Map, sampler_SSAO_Map, IN.uv).x;
+                return curColor * ao;
             }
             ENDHLSL
         }
