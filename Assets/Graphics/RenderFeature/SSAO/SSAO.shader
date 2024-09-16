@@ -18,6 +18,10 @@
         float sampleCount;
         float offsetBound;
         float selfCheckBound;
+        float intensity;
+
+        float filteringFactor;
+        float filteringRadius;
         CBUFFER_END
         
         TEXTURE2D_X_FLOAT(_CameraDepthTexture);
@@ -124,7 +128,7 @@
 
                     float selfCheck = step(samplePointDepth, sampleDepthRealDepth - selfCheckBound);
                     float rangeCheck = smoothstep(0, offsetBound, sphereRadius / offset);
-                    ssao += (sampleDepthRealDepth > samplePointDepth ? 1 : 0) * rangeCheck * selfCheck;
+                    ssao += (sampleDepthRealDepth > samplePointDepth ? intensity : 0) * rangeCheck * selfCheck;
                 }
                 ssao /= sampleCount;
                 ssao = 1 - min(ssao, 1);
@@ -133,6 +137,8 @@
             ENDHLSL
         }
 
+        UsePass "PostProcessingTemplate/BilateralFiltering/Bilateral_V"
+        UsePass "PostProcessingTemplate/BilateralFiltering/Bilateral_H"
         UsePass "PostProcessingTemplate/BilateralFiltering/BilateralFilteringPass"
         
         Pass
