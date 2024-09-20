@@ -34,8 +34,8 @@ MonoBehaviour:
     hdrDebugViewPS: {fileID: 4800000, guid: 573620ae32aec764abd4d728906d2587, type: 3}
   m_RendererFeatures:
   - {fileID: 4660229135378132050}
-  - {fileID: 2757342793957615907}
-  m_RendererFeatureMap: 52ac232ab575ac4023a9d37da90c4426
+  - {fileID: 6809265187664398052}
+  m_RendererFeatureMap: 52ac232ab575ac40e4862b749c5e7f5e
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -78,29 +78,6 @@ MonoBehaviour:
   m_CopyDepthMode: 0
   m_AccurateGbufferNormals: 0
   m_IntermediateTextureMode: 1
---- !u!114 &2757342793957615907
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6106b5056ec1dd409586e9d182f01e4, type: 3}
-  m_Name: SSAO
-  m_EditorClassIdentifier: 
-  m_Active: 1
-  setting:
-    Material: {fileID: 2100000, guid: 0e2ce6c70640407418f49abf59cbb062, type: 2}
-    RenderPassEvent: 300
-    SphereRadius: 0.1
-    SampleCount: 64
-    OffsetBound: 1
-    SelfCheckBound: 0.04
-    Intensity: 1.5
-    FilteringFactor: 0.1
-    FilteringRadius: 1
 --- !u!114 &4660229135378132050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,3 +92,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Active: 1
   NoSSAO: 1
+--- !u!114 &6809265187664398052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f729a56f6060bde4ab0be649f0c4c873, type: 3}
+  m_Name: VolumetricLight
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  setting:
+    RenderPassEvent: 300
+    StepCount: 50
+    Intensity: 0.3
+    DownSample: 0
+    FilteringSize: 2
+    FilteringRadius: 5
