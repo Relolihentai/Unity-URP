@@ -106,10 +106,10 @@ class VolumetricLightRenderPass : ScriptableRenderPass
         _material.SetInt(StepCountID, _stepCount);
         _material.SetFloat(IntensityID, _intensity);
         _material.SetFloat(RandomSeedID, Random.Range(0, 10));
+        
         //Pass0，计算步进
         //Pass1，模糊
         //Pass2，混合
-        Blitter.BlitCameraTexture(cmd, _sourceRT, _tmpRT);
         Blitter.BlitCameraTexture(cmd, _tmpRT, _tmpRT1, _material, 0);
         Blitter.BlitCameraTexture(cmd, _tmpRT1, _tmpRT, _material, 1);
         cmd.SetGlobalTexture(VolumetricLightMapID, _tmpRT);

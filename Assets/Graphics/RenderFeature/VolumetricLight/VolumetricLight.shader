@@ -62,7 +62,6 @@
             {
                 float4 position: SV_POSITION;
                 float2 uv: TEXCOORD0;
-                float3 viewRayWorld : TEXCOORD1;
             };
 
             v2f vert(a2v IN)
@@ -79,25 +78,7 @@
 
                 OUT.position = pos;
                 OUT.uv = uv * _BlitScaleBias.xy + _BlitScaleBias.zw;
-
-                float rawDepth = 1;
-                #ifdef UNITY_REVERSED_Z
-                    rawDepth = 1 - rawDepth;
-                #endif
-                float3 worldPos = ComputeWorldSpacePosition(OUT.uv, rawDepth, UNITY_MATRIX_I_VP);
-                OUT.viewRayWorld = worldPos - GetCameraPositionWS();
                 return OUT;
-            }
-
-            float3 GetWorldPosition(float3 positionHCS)
-            {
-                float2 UV = positionHCS.xy / _ScaledScreenParams.xy;
-                #if UNITY_REVERSED_Z
-                real depth = SampleSceneDepth(UV);
-                #else
-                real depth = lerp(UNITY_NEAR_CLIP_VALUE, 1, SampleSceneDepth(UV));
-                #endif
-                return ComputeWorldSpacePosition(UV, depth, UNITY_MATRIX_I_VP);
             }
 
             float GetLightAttenuation(float3 position)
@@ -106,16 +87,31 @@
                 return MainLightRealtimeShadow(shadowPos); //返回阴影值
             }
 
+            float3 ReconstructViewPos(float2 uv, float linearEyeDepth) {  
+                //翻转屏幕
+                #ifdef UNITY_UV_STARTS_AT_TOP
+                    uv.y = 1 - uv.y;
+                #endif
+
+                float zScale = linearEyeDepth / _ProjectionParams.y; // 除以近平面
+                float3 viewPos = Toy_CameraViewTopLeftCorner.xyz + Toy_CameraViewXExtent.xyz * uv.x + Toy_CameraViewYExtent.xyz * uv.y;  
+                viewPos *= zScale;
+                return viewPos;  
+            }
+
             float4 frag(v2f IN): SV_Target
             {
+                //棋盘式更新
+                float2 channel = floor(IN.position);
+                clip(channel.y % 2 * channel.x % 2 + (channel.y + 1) % 2 * (channel.x + 1) % 2 - 0.1f);
+
+                //重建世界坐标
                 float rawDepth = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, sampler_CameraDepthTexture, IN.uv);
-                float linearDepth = Linear01Depth(rawDepth, _ZBufferParams);
-                float3 worldPos = GetCameraPositionWS() + linearDepth * IN.viewRayWorld;
-                //return float4(worldPos, 1);
+                float linearEyeDepth = LinearEyeDepth(rawDepth, _ZBufferParams);
+                float3 worldPos = ReconstructViewPos(IN.uv, linearEyeDepth) + GetCameraPositionWS();
 
-                //在降采样时失效
-                //float3 worldPos = GetWorldPosition(IN.position);
-
+                //起点：相机世界坐标
+                //终点：像素世界坐标
                 float3 cameraPos = _WorldSpaceCameraPos;
                 float3 startPos = cameraPos;
                 float3 sampleDir = normalize(worldPos - startPos);
@@ -125,12 +121,14 @@
 
                 float intensity = 0;
                 float2 step = 1 / _StepCount;
+                //随机扰动
                 step.y *= 0.4;
                 float seed = Random(_ScreenParams.y * IN.uv.x + IN.uv.y * _ScreenParams.x);
                 for (float i = 0; i < 1; i += step.x)
                 {
                     seed = Random(seed);
                     float3 curSamplePos = lerp(startPos, endPos, i + seed * step.y);
+                    //用Unity内置函数获取阴影值
                     float atten = GetLightAttenuation(curSamplePos) * _Intensity;
                     intensity += atten;
                 }

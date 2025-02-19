@@ -1,7 +1,10 @@
 #ifndef INPUT_HLSL
 #define INPUT_HLSL
 
-float4x4 Toy_MATRIX_InvP;
+float4 Toy_CameraViewTopLeftCorner;
+float4 Toy_CameraViewXExtent;
+float4 Toy_CameraViewYExtent;
+
 
 
 #endif

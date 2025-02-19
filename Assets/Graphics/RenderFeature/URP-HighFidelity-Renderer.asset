@@ -16,6 +16,21 @@ MonoBehaviour:
   setting:
     Material: {fileID: 0}
     RenderPassEvent: 0
+--- !u!114 &-2824068785710958120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2147b0e7fdfe2ec42a22148c714e8cb4, type: 3}
+  m_Name: FeatureInput
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  setting:
+    RenderPassEvent: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34,8 +49,9 @@ MonoBehaviour:
     hdrDebugViewPS: {fileID: 4800000, guid: 573620ae32aec764abd4d728906d2587, type: 3}
   m_RendererFeatures:
   - {fileID: 4660229135378132050}
+  - {fileID: -2824068785710958120}
   - {fileID: 5800696682283494978}
-  m_RendererFeatureMap: 52ac232ab575ac40426e4b2de6368050
+  m_RendererFeatureMap: 52ac232ab575ac40d8f96de666e4ced8426e4b2de6368050
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
