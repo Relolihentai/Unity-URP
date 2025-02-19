@@ -9,7 +9,7 @@
         HLSLINCLUDE
 
         #define MAIN_LIGHT_CALCULATE_SHADOWS  //定义阴影采样
-        #define MAIN_LIGHT_SHADOWS_CASCADE //启用级联阴影
+        #define _MAIN_LIGHT_SHADOWS_CASCADE //正确地启用级联阴影
 
         #define MAX_MARCH_LENGTH 50
 
@@ -62,6 +62,7 @@
             {
                 float4 position: SV_POSITION;
                 float2 uv: TEXCOORD0;
+                float3 viewRayWorld : TEXCOORD1;
             };
 
             v2f vert(a2v IN)
@@ -78,6 +79,13 @@
 
                 OUT.position = pos;
                 OUT.uv = uv * _BlitScaleBias.xy + _BlitScaleBias.zw;
+
+                float rawDepth = 1;
+                #ifdef UNITY_REVERSED_Z
+                    rawDepth = 1 - rawDepth;
+                #endif
+                float3 worldPos = ComputeWorldSpacePosition(OUT.uv, rawDepth, UNITY_MATRIX_I_VP);
+                OUT.viewRayWorld = worldPos - GetCameraPositionWS();
                 return OUT;
             }
 
@@ -94,22 +102,20 @@
 
             float GetLightAttenuation(float3 position)
             {
-                float4 shadowPos = TransformWorldToShadowCoord(position); //把采样点的世界坐标转到阴影空间
-                float intensity = MainLightRealtimeShadow(shadowPos); //进行shadow map采样
-                return intensity; //返回阴影值
+                float4 shadowPos = TransformWorldToShadowCoord(position);
+                return MainLightRealtimeShadow(shadowPos); //返回阴影值
             }
 
             float4 frag(v2f IN): SV_Target
             {
                 float rawDepth = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, sampler_CameraDepthTexture, IN.uv);
-                float depth = Linear01Depth(rawDepth, _ZBufferParams);
-                float4 ndcPos = float4(IN.uv * 2 - 1, rawDepth, 1);
-                float far = _ProjectionParams.z;
-                float3 clipVec = float3(ndcPos.x, ndcPos.y, 1.0) * far;
-                float3 viewVec = mul(Toy_MATRIX_InvP, clipVec.xyzz).xyz;
-                float3 viewPos = viewVec * depth;
-                float3 worldPos = mul(UNITY_MATRIX_I_V, float4(viewPos, 1.0)).xyz;
-                // float3 worldPos = GetWorldPosition(IN.position);
+                float linearDepth = Linear01Depth(rawDepth, _ZBufferParams);
+                float3 worldPos = GetCameraPositionWS() + linearDepth * IN.viewRayWorld;
+                //return float4(worldPos, 1);
+
+                //在降采样时失效
+                //float3 worldPos = GetWorldPosition(IN.position);
+
                 float3 cameraPos = _WorldSpaceCameraPos;
                 float3 startPos = cameraPos;
                 float3 sampleDir = normalize(worldPos - startPos);
@@ -197,7 +203,7 @@
                         colorSum += SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearClamp, offsetUV);
                     }
                 }
-                colorSum /= _FilteringSize * _FilteringSize * _FilteringSize * _FilteringSize;
+                colorSum /= _FilteringSize * _FilteringSize * 4;
                 return colorSum;
                 
                 // float4 sourceColor = SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearClamp, IN.uv);

@@ -34,8 +34,8 @@ MonoBehaviour:
     hdrDebugViewPS: {fileID: 4800000, guid: 573620ae32aec764abd4d728906d2587, type: 3}
   m_RendererFeatures:
   - {fileID: 4660229135378132050}
-  - {fileID: 6809265187664398052}
-  m_RendererFeatureMap: 52ac232ab575ac40e4862b749c5e7f5e
+  - {fileID: 5800696682283494978}
+  m_RendererFeatureMap: 52ac232ab575ac40426e4b2de6368050
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -92,7 +92,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Active: 1
   NoSSAO: 1
---- !u!114 &6809265187664398052
+--- !u!114 &5800696682283494978
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -106,9 +106,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Active: 1
   setting:
-    RenderPassEvent: 300
-    StepCount: 50
-    Intensity: 0.3
-    DownSample: 0
-    FilteringSize: 2
-    FilteringRadius: 5
+    RenderPassEvent: 500
+    StepCount: 32
+    Intensity: 1
+    DownSample: 1
+    FilteringSize: 4
+    FilteringRadius: 3.03

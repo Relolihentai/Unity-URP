@@ -46,6 +46,7 @@ class VolumetricLightRenderPass : ScriptableRenderPass
     private RTHandle _sourceRT;
     private RTHandle _tmpRT;
     private RTHandle _tmpRT1;
+    private RTHandle _tmpRT_Full;
 
     private int _stepCount;
     private float _intensity;
@@ -74,9 +75,10 @@ class VolumetricLightRenderPass : ScriptableRenderPass
         var renderer = renderingData.cameraData.renderer;
         _descriptor = renderingData.cameraData.cameraTargetDescriptor;
         _descriptor.depthBufferBits = 0;
+        RenderingUtils.ReAllocateIfNeeded(ref _tmpRT_Full, _descriptor, FilterMode.Bilinear);
+        
         _descriptor.width /= 1 << _downSample;
         _descriptor.height /= 1 << _downSample;
-
         RenderingUtils.ReAllocateIfNeeded(ref _tmpRT, _descriptor, FilterMode.Bilinear);
         RenderingUtils.ReAllocateIfNeeded(ref _tmpRT1, _descriptor, FilterMode.Bilinear);
         
@@ -104,11 +106,15 @@ class VolumetricLightRenderPass : ScriptableRenderPass
         _material.SetInt(StepCountID, _stepCount);
         _material.SetFloat(IntensityID, _intensity);
         _material.SetFloat(RandomSeedID, Random.Range(0, 10));
-        Blitter.BlitCameraTexture(cmd, _sourceRT, _tmpRT, _material, 0);
-        Blitter.BlitCameraTexture(cmd, _tmpRT, _tmpRT1, _material, 1);
-        cmd.SetGlobalTexture(VolumetricLightMapID, _tmpRT1);
-        Blitter.BlitCameraTexture(cmd, _sourceRT, _tmpRT, _material, 2);
-        Blitter.BlitCameraTexture(cmd, _tmpRT, _sourceRT);
+        //Pass0，计算步进
+        //Pass1，模糊
+        //Pass2，混合
+        Blitter.BlitCameraTexture(cmd, _sourceRT, _tmpRT);
+        Blitter.BlitCameraTexture(cmd, _tmpRT, _tmpRT1, _material, 0);
+        Blitter.BlitCameraTexture(cmd, _tmpRT1, _tmpRT, _material, 1);
+        cmd.SetGlobalTexture(VolumetricLightMapID, _tmpRT);
+        Blitter.BlitCameraTexture(cmd, _sourceRT, _tmpRT_Full, _material, 2);
+        Blitter.BlitCameraTexture(cmd, _tmpRT_Full, _sourceRT);
         
         context.ExecuteCommandBuffer(cmd);
         cmd.Clear();
